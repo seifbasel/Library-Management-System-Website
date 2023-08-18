@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'students/CSS/style.css'%}">
+    <link rel="stylesheet" href="{% static 'students/CSS/style.css'%}" />
     <title>base</title>
     <link
       rel="stylesheet"
@@ -30,18 +30,24 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-center me-5" id="navbarNavAltMarkup">
+          <div
+            class="collapse navbar-collapse justify-content-center me-5"
+            id="navbarNavAltMarkup"
+          >
             <div class="navbar-nav">
               <a class="nav-link ms-3" aria-current="page" href="#">Home</a>
-              <a class="nav-link ms-3" href=" {% url 'student.login'%}">login</a>
-              <a class="nav-link ms-3" href="#">signup</a>
+              <a class="nav-link ms-3" href=" {% url 'student.login'%}"
+                >login</a
+              >
+              <a class="nav-link ms-3" href="{% url 'student.signup'%}"
+                >signup</a
+              >
               <a class="nav-link ms-3" href="#">books</a>
             </div>
           </div>
         </div>
       </nav>
     </div>
-    
 
     {% block 'content'%} {% endblock %}
 
