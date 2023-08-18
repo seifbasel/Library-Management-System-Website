@@ -32,17 +32,12 @@
           </button>
           <div
             class="collapse navbar-collapse justify-content-center me-5"
-            id="navbarNavAltMarkup"
-          >
+            id="navbarNavAltMarkup">
             <div class="navbar-nav">
               <a class="nav-link ms-3" aria-current="page" href="#">Home</a>
-              <a class="nav-link ms-3" href=" {% url 'student.login'%}"
-                >login</a
-              >
-              <a class="nav-link ms-3" href="{% url 'student.signup'%}"
-                >signup</a
-              >
-              <a class="nav-link ms-3" href="#">books</a>
+              <a class="nav-link ms-3" href=" {% url 'books.index'%}">books</a>
+              <a class="nav-link ms-3" href=" {% url 'student.login'%}">login</a>
+              <a class="nav-link ms-3" href="{% url 'student.signup'%}">signup</a>
             </div>
           </div>
         </div>

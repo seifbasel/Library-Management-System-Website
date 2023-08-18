@@ -48,8 +48,12 @@ form{
     justify-content: space-evenly;
     flex-wrap: wrap;
     
+.parent {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
+
 .card {
-    margin-bottom: 30px;
-    margin-top: 30px;
+  margin: 20px;
 }
