@@ -6,3 +6,7 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request, "students/index.html")
+
+
+def login(request):
+    return render(request, "students/login.html")

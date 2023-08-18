@@ -30,40 +30,18 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="collapse navbar-collapse justify-content-center me-5" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="#">Home</a>
-              <a class="nav-link" href="#">signin</a>
-              <a class="nav-link" href="#">signup</a>
-              <a class="nav-link" href="#">books</a>
+              <a class="nav-link ms-3" aria-current="page" href="#">Home</a>
+              <a class="nav-link ms-3" href=" {% static 'student.login'%}">login</a>
+              <a class="nav-link ms-3" href="#">signup</a>
+              <a class="nav-link ms-3" href="#">books</a>
             </div>
           </div>
         </div>
       </nav>
     </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-7"></div>
-        <div class="col-5">
-          <img
-            src="{% static 'students\images\Literature.gif' %}"
-            alt="funny GIF"
-            width="500px"
-            height="500px"
-          />
-        </div>
-      </div>
-    </div>
-
-    <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function () {
-        window.setTimeout(
-          document.querySelector("svg").classList.add("animated"),
-          1000
-        );
-      });
-    </script>
+    
 
     {% block 'content'%} {% endblock %}
 

@@ -2,5 +2,24 @@
 {%load static%}
 {% block 'content' %}
 
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-7">
+        {% block 'login' %}
+
+
+
+        {% endblock %}
+      </div>
+      <div class="col-5">
+        <img
+          src="{% static 'students\images\Literature.gif' %}"
+          alt="funny GIF"
+          width="500px"
+          height="500px"
+        />
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
