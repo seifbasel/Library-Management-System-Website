@@ -8,3 +8,7 @@ class Student(models.Model):
     phone_number = models.IntegerField(max_length=11)
     email = models.EmailField()
     birthdate = models.DateField(max_length=8)
+
+
+    def __str__(self):
+        return f"{self.name}"
