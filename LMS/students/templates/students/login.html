@@ -1,22 +1,37 @@
-{%extends 'students/layouts/base.html'%} 
-{%load static%} 
-{% block 'login' %}
+{%extends 'students/layouts/base.html'%}
+ {%load static%} 
+ {% block 'content' %}
 
-<form>
-  <!-- Email input -->
-  <div class="form-outline mb-4">
-    <input type="text" id="form1Example1" class="form-control" />
-    <label class="form-label" for="form1Example1">user name</label>
+<div class="container-fluid">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-6">
+      <form>
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="form1Example1" class="form-control" />
+          <label class="form-label" for="form1Example1">user name</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <input type="password" id="form1Example2" class="form-control" />
+          <label class="form-label" for="form1Example2">Password</label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      </form>
+    </div>
+    <div class="col-6">
+      <img
+        src="{% static 'students\images\Literature.gif' %}"
+        alt="funny GIF"
+        width="500px"
+        height="500px"
+      />
+    </div>
   </div>
+</div>
 
-  <!-- Password input -->
-  <div class="form-outline mb-4">
-    <input type="password" id="form1Example2" class="form-control" />
-    <label class="form-label" for="form1Example2">Password</label>
-  </div>
-
-  <!-- Submit button -->
-  <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-</form>
 
 {% endblock %}
