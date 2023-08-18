@@ -4,25 +4,39 @@
 
 <div class="container-fluid">
   <div class="row justify-content-center align-items-center">
-    <div class="col-6">
+    <div class="col-5">
       <form>
         <!-- Email input -->
-        <div class="form-outline mb-4">
-          <input type="text" id="form1Example1" class="form-control" />
-          <label class="form-label" for="form1Example1">user name</label>
+        {% comment %} <div class="form-outline mb-4">
+          <input type="email" id="form1Example1" class="form-control" />
+          <label class="form-label" for="form1Example1">Email address</label>
         </div>
-
+      
         <!-- Password input -->
         <div class="form-outline mb-4">
           <input type="password" id="form1Example2" class="form-control" />
           <label class="form-label" for="form1Example2">Password</label>
+        </div> {% endcomment %}
+
+        <div class="form-group">
+          <label for="formGroupExampleInput">Example label</label>
+          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="user name">
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Another label</label>
+          <input type="password" class="form-control mt-3" id="formGroupExampleInput2" placeholder="password">
         </div>
 
+      
+
+      
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        <button type="submit" class="btn btn-primary btn-block mt-5 me-2">log in</button>
+        <button type="submit" class="btn btn-danger btn-block mt-5">Sign up</button>
       </form>
     </div>
-    <div class="col-6">
+    <div class="col-1"></div>
+    <div class="col-5">
       <img
         src="{% static 'students\images\Literature.gif' %}"
         alt="funny GIF"
