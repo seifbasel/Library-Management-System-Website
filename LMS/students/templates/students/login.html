@@ -1,28 +1,40 @@
-{%extends 'students/layouts/base.html'%}
- {%load static%} 
- {% block 'content' %}
+{%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
 
 <div class="container-fluid">
   <div class="row justify-content-center align-items-center">
     <div class="col-5">
       <form>
-        
-
-        <div class="form-group">
-          <label for="formGroupExampleInput">Example label</label>
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="user name">
+        <div class="form-group mt-3">
+          <label>username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="formGroupExampleInput"
+            placeholder="enter your user name"
+          />
         </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">Another label</label>
-          <input type="password" class="form-control mt-3" id="formGroupExampleInput2" placeholder="password">
+        <div class="form-group mt-3">
+          <label>password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="formGroupExampleInput2"
+            placeholder="enter your password"
+          />
         </div>
 
-      
-
-      
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mt-5 me-2">log in</button>
-        <button type="submit" class="btn btn-danger btn-block mt-5">Sign up</button>
+        <button type="submit" class="btn btn-primary btn-block mt-5 me-2">
+          log in
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-danger btn-block mt-5"
+          id="signup_btn"
+          style="text-decoration: none">
+          <a href="{% url 'student.signup'%}">signup </a>
+        </button>
       </form>
     </div>
     <div class="col-1"></div>
@@ -36,6 +48,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}
