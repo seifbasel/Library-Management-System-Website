@@ -20,3 +20,10 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+    @classmethod
+    def get_all_books(cls):
+        return cls.objects.all()
+
+    # def get_image_url(self):
+    #     return f"/media/{self.image}"
