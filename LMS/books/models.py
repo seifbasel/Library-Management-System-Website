@@ -19,7 +19,7 @@ class Book(models.Model):
     rent_period = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.title}"
     
     @classmethod
     def get_all_books(cls):
