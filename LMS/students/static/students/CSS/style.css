@@ -20,8 +20,6 @@ body{
     background-color:#4F709C;    
 }
 
-<<<<<<< HEAD
-
 
 .btn {
   background-color: none;
@@ -40,10 +38,8 @@ body{
   background-color: #dc3545;
 }
 
-#signup_btn{
-    text-decoration: none;
+
     
-=======
 /* container div in books.index page  */
 .container {
     display: flex;
@@ -54,5 +50,4 @@ body{
 .card {
     margin-bottom: 30px;
     margin-top: 30px;
->>>>>>> f91ca56e2bfea30c7ecde41e497ef0e074887c97
 }
