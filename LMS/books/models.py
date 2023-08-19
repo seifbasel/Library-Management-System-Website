@@ -10,7 +10,7 @@ class Book(models.Model):
 
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='',null=True, blank=True)
+    image = models.ImageField(upload_to='books/images',null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     active = models.BooleanField(default=True, null=True, blank=True)
