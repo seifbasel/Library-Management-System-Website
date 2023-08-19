@@ -1,17 +1,18 @@
 {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
 
   <div class="text-center p-5">
-    <h1>Book details</h1>
+    <h1>{{book.title}} by {{book.author}}</h1>
   </div>
 
 <div class="row justify-content-center align-items-center">
     <div class="card col-5">
-      <h1 class="card-header">{{book.title}}</h1>
+      <h1 class="card-header">Title : {{book.title}}</h1>
       <div class="card-body">
-        <h5 class="card-title">{{book.author}}</h5>
+        <h5 class="card-title">Author : {{book.author}}</h5>
+        <h5>description: </h5>
         <p class="card-text">{{book.description}}</p>
-        <p class="card-text text-danger">{{book.genre}}</p>
-        <h5 class="card-text fw-bold text-black">${{book.price}}</h5>
+        <p class="card-text text-danger">Genre : {{book.genre}}</p>
+        <h5 class="card-text fw-bold text-black">Price : ${{book.price}}</h5>
         
         <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
       </div>
