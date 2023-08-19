@@ -25,5 +25,5 @@ class Book(models.Model):
     def get_all_books(cls):
         return cls.objects.all()
 
-    # def get_image_url(self):
-    #     return f"/media/{self.image}"
+    def get_image_url(self):
+        return f"/media/{self.image}"

@@ -5,7 +5,7 @@
 <div class="parent">
     {%for book in books%}
     <div class="card" style="width: 20rem;">
-        <img class="card-img-top" src="https://edit.org/images/cat/book-covers-big-2019101610.jpg" alt="Card image cap" style="max-height: 300px;">
+        <img class="card-img-top" src="{{book.get_image_url}}" alt="Card image cap" style="height: 300px;">
         <div class="card-body">
             <h5 class="card-title">
                 Title: {{book.title}}
