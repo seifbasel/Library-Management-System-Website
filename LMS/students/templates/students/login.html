@@ -3,7 +3,7 @@
 <div class="container-fluid">
   <div class="row justify-content-center align-items-center">
     <div class="col-5">
-      <form>
+      <form class="form-control" style="background-color: #4F709C;">
         <div class="form-group mt-3">
           <label>username</label>
           <input
@@ -32,7 +32,8 @@
           type="submit"
           class="btn btn-danger btn-block mt-5"
           id="signup_btn"
-          style="text-decoration: none">
+          style="text-decoration: none"
+        >
           <a href="{% url 'student.signup'%}">signup </a>
         </button>
       </form>

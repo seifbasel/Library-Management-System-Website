@@ -27,30 +27,31 @@ body{
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 5px;
+  border-width: 0;
   cursor: pointer;
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #FF7477;
 }
 
 .btn-danger {
-  background-color: #dc3545;
+  background-color: #213555;
 }
 
 form{
-    background-color: #D8C4B6;
+    background-color: #4F709C;
 }
+
     
 /* container div in books.index page  */
-
 .parent {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
 
-.card {
+.card{
   margin: 20px;
 }
 
