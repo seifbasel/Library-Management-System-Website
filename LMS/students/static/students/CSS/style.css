@@ -38,6 +38,16 @@ body{
   background-color: #dc3545;
 }
 
+form{
+    background-color: #D8C4B6;
+}
+    
+/* container div in books.index page  */
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    
 .parent {
   display: flex;
   justify-content: space-evenly;
