@@ -1,9 +1,39 @@
 {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
-<div class="landing">
-  <div class="content">
-    <h2>Book {{book.title}}</h2>
+
+  <div class="text-center p-5">
+    <h1>Book details </h1>
+  </div>
+
+<div class="row justify-content-center align-items-center">
+    <div class="card col-5">
+      <h1 class="card-header">{{book.title}}</h1>
+      <div class="card-body">
+        <h5 class="card-title">{{book.author}}</h5>
+        <p class="card-text">{{book.description}}</p>
+        <p class="card-text text-danger">{{book.genre}}</p>
+        <h5 class="card-text fw-bold text-black">${{book.price}}</h5>
+        
+        <a href="{% url 'books.index'%}" class="btn btn-primary"
+          >return to books</a>
+      </div>
+    </div>
+
+    
+    <div class="col-1">
+    </div>
+
+    <div class="col-5">
+      <img
+        class="card-img-top"
+        src="{{book.get_image_url}}"
+        alt="Card image cap"
+        style="height: 500px;width:300px"
+      />
+    </div>
   </div>
 </div>
+
+{% comment %}
 <div class="parent">
   <div class="card" style="width: 20rem">
     <img
@@ -12,6 +42,7 @@
       alt="Card image cap"
       style="height: 300px"
     />
+
     <div class="card-body">
       <h5 class="card-title">Title: {{book.title}}</h5>
       <h5 class="card-title">Author: {{book.author}}</h5>
@@ -21,6 +52,7 @@
       <a href="#" class="btn btn-primary">view Details</a>
     </div>
   </div>
+  {% endcomment %}
 
   <!-- End of Container div -->
 </div>
