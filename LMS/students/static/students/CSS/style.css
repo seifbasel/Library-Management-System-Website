@@ -53,3 +53,17 @@ form{
 .card {
   margin: 20px;
 }
+
+.landing {
+  background-color: #f8f8f8;
+  height: 300px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing h2 {
+  font-size: 100px;
+  font-weight: 700;
+}

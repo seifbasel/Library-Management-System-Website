@@ -1,7 +1,12 @@
 {%extends 'students/layouts/base.html'%}
 {%load static%}
 {% block 'content' %}
-
+<div class="landing">
+    <div class="content">
+        <h2>Books</h2>
+        <p>there is all books</p>
+    </div>
+</div>
 <div class="parent">
     {%for book in books%}
     <div class="card" style="width: 20rem;">
