@@ -21,6 +21,7 @@ def student_creat_view(request):
     form=Student_form(request.POST or None)
     if form.is_valid():
         form.save()
+    form=Student_form()
     
     context={
         'form':form
@@ -32,5 +33,5 @@ def student_creat_view(request):
     #     'phone_number':obj.phone_number,
     # }
     
-    return render(request, "students/create.html",context)
+    return render(request, "students/signup.html",context)
     
