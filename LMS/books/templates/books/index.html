@@ -4,9 +4,9 @@
     <h2>Books</h2>
     <h4>There is a collection of best books in all generes</h4>
   </div>
-  <div class="content col-4">
+  {% comment %} <div class="content col-4">
     <a href="{% url 'books.creat'%}" class="btn btn-danger">add book</a>
-  </div>
+  </div> {% endcomment %}
 </div>
 
 <div class="parent">
@@ -18,19 +18,25 @@
       alt="Card image cap"
       style="height: 450px; width: 319px"
     />
+
     <div class="card-body">
       <h5 class="card-title fw-bold">{{book.title}} by {{book.author}}</h5>
       <h5 class="card-title fw-bold">Genre: {{book.genre}}</h5>
       <!-- <p class="card-text">let it empty now</p> -->
-      <div class="row">
+
+      <div class="row justify-content-center align-items-center">
         <div class="col-5">
           <a href="{{book.get_show_url}}" class="btn btn-primary"
             >view Details</a
           >
         </div>
-        <div class="col-5">
-          <a href="#" class="btn btn-danger">borrow book</a>
+       <div class="col-7">
+        <h3 class="card-title">price:${{book.price}}</h3>
+          
         </div>
+        {% comment %} <div class="col-3">
+          <a href="#" class="btn btn-danger">delete</a>
+        </div>  {% endcomment %}
       </div>
     </div>
   </div>
