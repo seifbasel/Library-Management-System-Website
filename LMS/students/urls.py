@@ -5,7 +5,7 @@ urlpatterns = [
     path('', index, name='student.index'),
     path('login/', login, name='student.login'),
     path('profile/', profile, name='student.profile'),
-    
+    # <int:id>
     path('signup/', student_creat_view,name='student.signup'),
     
 ]

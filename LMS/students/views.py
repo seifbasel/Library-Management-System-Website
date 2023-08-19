@@ -8,8 +8,12 @@ from django.http import HttpResponse
 def index(request):
     return render(request, "students/index.html")
 
-def profile(request):
-    return render(request, "students/profile.html")
+# def profile(request):
+#     return render(request, "students/profile.html")
+
+def profile(request, id):
+    student = Student.get_all_students(id=id)
+    return render( request, "students/profile.html", context={'student': student})
 
 def login(request):
     return render(request, "students/login.html")
