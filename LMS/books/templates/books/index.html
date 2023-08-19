@@ -20,7 +20,7 @@
       <h5 class="card-title">status: {{book.status}}</h5>
       <h5 class="card-title">Genre: {{book.genre}}</h5>
       <!-- <p class="card-text">let it empty now</p> -->
-      <a href="{% url 'books.show'%}" class="btn btn-primary">view Details</a>
+      <a href="{{book.get_show_url}}" class="btn btn-primary">view Details</a>
     </div>
   </div>
   {% endfor %}

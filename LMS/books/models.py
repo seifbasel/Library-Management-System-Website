@@ -1,5 +1,6 @@
 from django.db import models
 from genre.models import Genre
+from django.urls import reverse
 # Create your models here.
 class Book(models.Model):
     STATUS_CHOICES = (
@@ -34,3 +35,5 @@ class Book(models.Model):
     def get_image_url(self):
         return f"/media/{self.image}"
     
+    def get_show_url(self):
+        return reverse("books.show", args=[self.id])
