@@ -20,7 +20,18 @@
       <h5 class="card-title">status: {{book.status}}</h5>
       <h5 class="card-title">Genre: {{book.genre}}</h5>
       <!-- <p class="card-text">let it empty now</p> -->
-      <a href="{{book.get_show_url}}" class="btn btn-primary">view Details</a>
+      <div class="row">
+        <div class="col-5">
+          <a href="{{book.get_show_url}}" class="btn btn-primary"
+            >view Details</a
+          >
+        </div>
+        <div class="col-5">
+          <a href="#" class="btn btn-danger"
+            >borrow book</a
+          >
+        </div>
+      </div>
     </div>
   </div>
   {% endfor %}
