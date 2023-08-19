@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import Student_form
 from .models import Student
 # Create your views here.
@@ -8,6 +8,8 @@ from django.http import HttpResponse
 def index(request):
     return render(request, "students/index.html")
 
+def profile(request):
+    return render(request, "students/profile.html")
 
 def login(request):
     return render(request, "students/login.html")
@@ -17,21 +19,32 @@ def signup(request):
     return render(request, "students/signup.html")
 
 def student_creat_view(request):
-    # obj=Student.objects.get(ID=1)
-    form=Student_form(request.POST or None)
-    if form.is_valid():
-        form.save()
-    form=Student_form()
-    
-    context={
-        'form':form
-    }
+    # form=Student_form(request.POST or None)
+    # if form.is_valid():
+    #     form.save()
+    # form=Student_form()
     
     # context={
-    #     'name':obj.name,
-    #     'password':obj.password,
-    #     'phone_number':obj.phone_number,
+    #     'form':form
     # }
+    # return render(request, "students/signup.html",context)
+    student = Student.get_all_students()
+
+    if request.method == "POST":
+        name = request.POST['name']
+        password = request.POST['password']
+        phonenumber = request.POST['phonenumber']
+        email = request.POST['email']
+        birthdate= request.POST['birthdate']
     
-    return render(request, "students/signup.html",context)
-    
+        student=Student()
+        student.name=name
+        student.password = password
+        student.phone_number = phonenumber
+        student.email = email
+        student.birthdate=birthdate
+        student.save()
+        
+
+        return redirect('student.index')
+    return render(request,'students/signup.html',context={'student':student})

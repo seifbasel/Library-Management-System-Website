@@ -1,10 +1,14 @@
 {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
-<div class="landing">
-  <div class="content">
+<div class="landing row">
+  <div class="content col-12">
     <h2>Books</h2>
     <h4>there is a collection of best books in all generes</h4>
   </div>
+  <div class="content col-4">
+    <a href="{% url 'books.creat'%}" class="btn btn-danger">add book</a>
+  </div>
 </div>
+
 <div class="parent">
   {%for book in books%}
   <div class="card" style="width: 20rem">
@@ -12,7 +16,11 @@
       class="card-img-top"
       src="{{book.get_image_url}}"
       alt="Card image cap"
+<<<<<<< HEAD
       style="height: 450px ;width:100%;"
+=======
+      style="height: 450px; width: 319px"
+>>>>>>> d6313452415c6295b80ccaa4878fe5f219e8a1d3
     />
     <div class="card-body">
       <h5 class="card-title">Title: {{book.title}}</h5>
@@ -20,7 +28,16 @@
       <h5 class="card-title">status: {{book.status}}</h5>
       <h5 class="card-title">Genre: {{book.genre}}</h5>
       <!-- <p class="card-text">let it empty now</p> -->
-      <a href="{{book.get_show_url}}" class="btn btn-primary">view Details</a>
+      <div class="row">
+        <div class="col-5">
+          <a href="{{book.get_show_url}}" class="btn btn-primary"
+            >view Details</a
+          >
+        </div>
+        <div class="col-5">
+          <a href="#" class="btn btn-danger">borrow book</a>
+        </div>
+      </div>
     </div>
   </div>
   {% endfor %}

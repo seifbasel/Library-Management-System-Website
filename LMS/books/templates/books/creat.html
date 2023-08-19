@@ -4,54 +4,58 @@
   <form class="form-horizontal border-black p-4" action="" method="post">
     {% csrf_token %}
     <div class="form-group">
-      <label>user name</label>
+      <label>title</label>
       <input
         type="text"
         class="form-control"
         id="name"
-        placeholder="Enter your name"
+        placeholder="Enter book title"
+        name="title"
       />
     </div>
 
     <div class="form-group">
-      <label>Email address</label>
-      {{form.email}}
+      <label>author</label>
+
       <input
-        type="email"
+        type="text"
         class="form-control"
         id="email"
-        placeholder="Enter your email address"
+        placeholder="Enter the name of author"
+        name="author"
       />
     </div>
 
     <div class="form-group">
-      <label>birth date</label>
-      {{form.birthdate}}
+      <label>image</label>
       <input
-        type="date"
+        type="file"
+        class="form-control"
+        id="image"
+        placeholder="insert book cover"
+        name="image"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>descreption</label>
+      <input
+        type="text"
         class="form-control"
         id="email"
-        placeholder="Enter your birth date"
+        placeholder="write book descreption"
+        name="description"
       />
     </div>
 
     <div class="form-group">
-      <label>phone number</label>
+      <label>price</label>
       <input
         type="number"
         class="form-control"
-        id="email"
-        placeholder="Enter your phone number"
-      />
-    </div>
-
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        type="password"
-        class="form-control"
         id="password"
-        placeholder="Enter your password"
+        placeholder="Enter the price of the book"
+        name="price"
       />
     </div>
     <button type="submit" value="save" class="btn btn-primary mt-3">
@@ -61,3 +65,7 @@
 </div>
 
 {% endblock %}
+
+
+
+
