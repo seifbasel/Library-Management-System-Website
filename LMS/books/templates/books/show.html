@@ -8,15 +8,29 @@
     <div class="card col-5">
       <h1 class="card-header">Title : {{book.title}}</h1>
       <div class="card-body">
-        <h5 class="card-title">Author : {{book.author}}</h5>
+        <h5 class="card-title text-danger pt-1">Author : {{book.author}}</h5>
         <h5>description: </h5>
         <p class="card-text">{{book.description}}</p>
-        <p class="card-text fw-bold text-black">Genre : {{book.genre}}</p>
-        <h5 class="card-text fw-bold text-black">Price : ${{book.price}}</h5>
+        <p class="card-text fw-bold text-black pt-1">Genre : {{book.genre}}</p>
+        <p class="card-text fw-bold text-black pt-1">number of pages : {{book.pages}}</p>
+        <h5 class="card-text fw-bold text-black pt-1">Price : ${{book.price}}</h5>
         
+        <div class="row justify-content-center align-items-center pt-1">
+      
+          <div class=" col-4">
         <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
-        <a href="#" class="btn btn-danger">borrow book</a>
       </div>
+      <div class=" col-4">
+        <a href="#" class="btn btn-danger me-4 ">borrow book</a>
+      </div>
+        <div class=" col-4">
+        <h5 class="fw-bold text-black text-end text-danger"> status: {{book.status}}</h5>
+      </div>
+        
+      </div>
+
+      
+    </div>
 
       
   
