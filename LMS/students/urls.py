@@ -6,5 +6,4 @@ urlpatterns = [
     path('login/', login, name='student.login'),
     path('profile/', profile, name='student.profile'),
     path('signup/', student_creat_view,name='student.signup'),
-    
 ]
