@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from students.views import index,login,signup,student_creat_view,profile
 
 urlpatterns = [
@@ -7,5 +7,7 @@ urlpatterns = [
     path('profile/', profile, name='student.profile'),
     # <int:id>  look here 
     path('signup/', student_creat_view,name='student.signup'),
+    path("accounts/", include("django.contrib.auth.urls"),name="student.login"),
+
     
 ]

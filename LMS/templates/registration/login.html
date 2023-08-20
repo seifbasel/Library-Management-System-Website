@@ -1,5 +1,23 @@
 {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
 
+<h2>Log In</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+</form>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% comment %} {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
+
 <div class="container-fluid">
   <div class="row justify-content-center align-items-center">
     <div class="col-5">
@@ -50,4 +68,4 @@
   </div>
 </div>
 
-{% endblock %}
+{% endblock %} {% endcomment %}

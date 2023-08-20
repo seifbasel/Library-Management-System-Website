@@ -23,5 +23,6 @@ urlpatterns = [
     path("students/", include('students.urls')),
     path("books/", include('books.urls')),
     path("genre/", include('genre.urls')),
+    # path("accounts/", include("django.contrib.auth.urls"),name="student.login"),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
