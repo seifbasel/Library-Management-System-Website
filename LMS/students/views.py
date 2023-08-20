@@ -14,7 +14,7 @@ def index(request):
 
 # look here for profile 
 def profile(request, id):
-    student = Student.get_all_students(id=id)
+    student = Student.get_student(id=id)
     return render( request, "students/profile.html", context={'student': student})
 
 def login(request):

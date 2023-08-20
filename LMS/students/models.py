@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 class Student(models.Model):
     name = models.CharField(max_length=255)
@@ -14,3 +14,10 @@ class Student(models.Model):
     @classmethod
     def get_all_students(cls):
         return cls.objects.all()
+    
+    @classmethod
+    def get_student(cls, id):
+        return cls.objects.get(id = id)
+    
+    def get_profile_url(self):
+        return reverse("student.profile", args=[self.id])
