@@ -1,5 +1,7 @@
 from django.urls import path
-from students.views import index,login, profile, StudentSignUp
+from students.views import index, profile, StudentSignUp# ,login
+from django.contrib.auth import login, logout
+
 
 urlpatterns = [
     path('', index, name='student.index'),

@@ -16,8 +16,8 @@ def profile(request, id):
     student = Student.get_student(id=id)
     return render( request, "students/profile.html", context={'student': student})
 
-def login(request):
-    return render(request, "students/login.html")
+# def login(request):
+#     return render(request, "students/login.html")
 
 
 # def signup(request):
