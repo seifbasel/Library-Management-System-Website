@@ -147,7 +147,8 @@ JAZZMIN_SETTINGS = {
         
         # Url that gets reversed (Permissions can be added)
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "view students",  "url": "students/student/", "permissions": ["auth.view_user"]}],
+        {"name": "view students",  "url": "students/student/", "permissions": ["auth.view_user"]},
+        {"name": "site",  "url": "", "permissions": ["auth.view_user"]}],
     
     "site_title": "Library Admin",
 
