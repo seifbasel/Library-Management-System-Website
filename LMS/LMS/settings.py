@@ -141,23 +141,9 @@ import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-<<<<<<< HEAD
-LOGIN_URL = '/students/login/'
-
-
-LOGIN_REDIRECT_URL = '/students/profile/'
-
-
-
-
-
-
-
-=======
 
 LOGIN_URL = '/students/login/'
 
->>>>>>> e0e491146f8cd6d70c30aa99494cb73e906be496
 JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to the library",
     "topmenu_links": [
