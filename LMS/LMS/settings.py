@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,3 +141,21 @@ import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+JAZZMIN_SETTINGS = {
+    "welcome_sign": "Welcome to the library",
+    "topmenu_links": [
+        
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "view students",  "url": "students/student/", "permissions": ["auth.view_user"]}],
+    
+    "site_title": "Library Admin",
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "book Library",
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "book Library",
+    "search_model": ["auth.Students"],
+
+}
