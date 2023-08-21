@@ -58,7 +58,7 @@ ROOT_URLCONF = 'LMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,6 +140,17 @@ MEDIA_URL = "/media/"
 import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+LOGIN_URL = '/students/login/'
+
+
+LOGIN_REDIRECT_URL = '/students/profile/'
+
+
+
+
+
+
 
 JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to the library",
