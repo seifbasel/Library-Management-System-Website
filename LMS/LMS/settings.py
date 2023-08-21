@@ -141,6 +141,7 @@ import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+<<<<<<< HEAD
 LOGIN_URL = '/students/login/'
 
 
@@ -152,14 +153,19 @@ LOGIN_REDIRECT_URL = '/students/profile/'
 
 
 
+=======
+
+LOGIN_URL = '/students/login/'
+
+>>>>>>> e0e491146f8cd6d70c30aa99494cb73e906be496
 JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to the library",
     "topmenu_links": [
         
         # Url that gets reversed (Permissions can be added)
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "view students",  "url": "students/student/", "permissions": ["auth.view_user"]},
-        {"name": "site",  "url": "", "permissions": ["auth.view_user"]}],
+        {"name": "view students",  "url": 'students/student/', "permissions": ["auth.view_user"]},
+        {"name": "LMS site",  "url": 'student.index', "permissions": ["auth.view_user"]}],
     
     "site_title": "Library Admin",
 
