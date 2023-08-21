@@ -3,6 +3,8 @@ from students.views import index, profile, StudentSignUp# ,login
 from django.contrib.auth import login, logout
 
 
+    
+
 urlpatterns = [
     path('', index, name='student.index'),
     path('login/', login, name='student.login'),
