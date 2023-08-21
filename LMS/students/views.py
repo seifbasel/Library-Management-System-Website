@@ -46,9 +46,27 @@ def student_creat_view(request):
 
         return redirect('student.index')
     return render(request,'students/signup.html',context={'student':student})
-
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 class StudentSignUp(CreateView):
-    model = Student
-    form_class = Student_form
+    model = User
+    form_class = UserCreationForm
     success_url = "/students/login"
     template_name = "students/signup.html"
+
+    def form_valid(self, form):
+        # Save the User object first
+        user = form.save()
+
+        # Map form data to Student model
+        student = Student()
+        student.name = form.cleaned_data.get('username')
+        student.password = user.password
+        student.phone_number = form.cleaned_data.get('phone_number')
+        student.email = form.cleaned_data.get('email')
+        student.birthdate = form.cleaned_data.get('birthdate')
+
+        # Save the Student object
+        student.save()
+
+        return super().form_valid(form)
