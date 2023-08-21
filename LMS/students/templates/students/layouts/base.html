@@ -8,7 +8,8 @@
     <title>base</title>
     <link
       rel="stylesheet"
-      href="{% static 'students/bootstrap/css/bootstrap.css' %}"/>
+      href="{% static 'students/bootstrap/css/bootstrap.css' %}"
+    />
     <link rel="stylesheet" href="{% static 'students/css/style.css' %}" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@800&family=Tilt+Prism&display=swap");
@@ -33,25 +34,36 @@
             </button>
             <div
               class="collapse navbar-collapse justify-content-center me-5"
-              id="navbarNavAltMarkup">
+              id="navbarNavAltMarkup"
+            >
               <div class="navbar-nav">
-                <a class="nav-link ms-3" href="{% url 'student.index' %}">Home</a>
-                <a class="nav-link ms-3" href=" {% url 'student.profile'%}">profile</a>
-                <a class="nav-link ms-3" href=" {% url 'books.index'%}">books</a>
-                <a class="nav-link ms-3" href=" {% url 'student.login'%}">login</a>
-                <a class="nav-link ms-3" href="{% url 'student.signup'%}">signup</a>
-                <a class="nav-link ms-3" href="{% url 'admin:index' %}">admin</a>
-          
-
+                <a class="nav-link ms-3" href="{% url 'student.index' %}"
+                  >Home</a
+                >
+                <a class="nav-link ms-3" href=" {% url 'student.profile'%}"
+                  >profile</a
+                >
+                <a class="nav-link ms-3" href=" {% url 'books.index'%}"
+                  >books</a
+                >
+                <a class="nav-link ms-3" href=" {% url 'student.login'%}"
+                  >login</a
+                >
+                <a class="nav-link ms-3" href="{% url 'student.signup'%}"
+                  >signup</a
+                >
+                <a
+                  class="nav-link ms-3 text-danger"
+                  href="{% url 'admin:index' %}"
+                  >admin</a
+                >
               </div>
             </div>
           </div>
         </nav>
       </div>
     </header>
-    {% block 'content'%} 
-    
-    {% endblock %}
+    {% block 'content'%} {% endblock %}
 
     <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>
   </body>
