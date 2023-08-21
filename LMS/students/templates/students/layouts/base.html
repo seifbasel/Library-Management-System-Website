@@ -47,8 +47,9 @@
                   >books</a
                 >
                 <a class="nav-link ms-3" href=" {% url 'student.login'%}"
-                  >login</a
-                >
+                  >login</a>
+                <a class="nav-link ms-3" href=" {% url 'logout'%}"
+                  >Logout</a>
                 <a class="nav-link ms-3" href="{% url 'student.signup'%}"
                   >signup</a
                 >
@@ -63,6 +64,7 @@
         </nav>
       </div>
     </header>
+    user : {{user}}
     {% block 'content'%} {% endblock %}
 
     <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>

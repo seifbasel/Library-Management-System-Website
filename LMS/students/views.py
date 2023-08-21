@@ -7,21 +7,14 @@ from django.views.generic import CreateView
 def index(request):
     return render(request, "students/index.html")
 
-# def profile(request):
-#     return render(request, "students/profile.html")
 
 
-# look here for profile 
-def profile(request, id):
-    student = Student.get_student(id=id)
-    return render( request, "students/profile.html", context={'student': student})
+def profile(request):
 
-# def login(request):
-#     return render(request, "students/login.html")
+    return render(request, "students/profile.html")
 
 
-# def signup(request):
-#     return render(request, "students/signup.html")
+
 
 def student_creat_view(request):
     # form=Student_form(request.POST or None)
