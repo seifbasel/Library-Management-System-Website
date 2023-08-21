@@ -144,6 +144,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_URL = '/students/login/'
 
+LOGIN_REDIRECT_URL = '/students/profile/'
+
+LOGOUT_REDIRECT_URL = '/students/login/'
+
 JAZZMIN_SETTINGS = {
     "welcome_sign": "Welcome to the library",
     "topmenu_links": [
