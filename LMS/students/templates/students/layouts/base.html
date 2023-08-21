@@ -48,13 +48,14 @@
                 >
                 <a class="nav-link ms-3" href=" {% url 'student.login'%}"
                   >login</a>
-                <a class="nav-link ms-3" href=" {% url 'logout'%}"
-                  >Logout</a>
+                
                 <a class="nav-link ms-3" href="{% url 'student.signup'%}"
                   >signup</a
                 >
+                <a class="nav-link ms-3 text-danger " href=" {% url 'logout'%}"
+                  >Logout</a>
                 <a
-                  class="nav-link ms-3 text-danger"
+                  class="nav-link ms-3 text-warning fw-bold"
                   href="{% url 'admin:index' %}"
                   >admin</a
                 >
