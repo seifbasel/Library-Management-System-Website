@@ -164,6 +164,5 @@ JAZZMIN_SETTINGS = {
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_brand": "book Library",
-    "search_model": ["auth.Students"],
-
+    "search_model": ["auth.User"]
 }

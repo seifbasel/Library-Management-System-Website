@@ -9,7 +9,7 @@ class Student(models.Model):
     phone_number = models.IntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     birthdate = models.DateField(max_length=8, null=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
 
 
     def __str__(self):
