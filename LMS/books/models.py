@@ -40,7 +40,3 @@ class Book(models.Model):
     
     # def get_show_url(self):
     #     return reverse("books.borrow", args=[self.id])
-
-
-
-
