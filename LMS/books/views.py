@@ -26,7 +26,8 @@ def borrow(request, id):
             book.user = request.user
             book.save()
             form.save()
-            return HttpResponse("<h1>Borrowed</h1>")
+            # return HttpResponse("<h1>Borrowed</h1>")
+            return redirect("books/borrowed.html")
 
     return render(request , "books/borrowed.html", context={"form":form})
     
