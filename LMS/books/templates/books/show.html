@@ -21,7 +21,7 @@
         <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
       </div>
       <div class=" col-4">
-        <a href="#" class="btn btn-danger me-4 ">borrow book</a>
+        <a href="{{book.get_borrow_url}}" class="btn btn-danger me-4 ">borrow book</a>
       </div>
         <div class=" col-4">
         <h5 class="fw-bold text-black text-end text-danger"> status: {{book.status}}</h5>

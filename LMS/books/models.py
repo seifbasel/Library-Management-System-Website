@@ -34,5 +34,8 @@ class Book(models.Model):
     def get_show_url(self):
         return reverse("books.show", args=[self.id])
     
+    def get_borrow_url(self):
+        return reverse("books.borrow", args=[self.id])
+    
     # def get_show_url(self):
     #     return reverse("books.borrow", args=[self.id])
