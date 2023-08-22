@@ -37,10 +37,12 @@ def show_borrowed(request):
     books = Book.objects.filter(user=request.user)
     return render(request , "books/borrowedbooks.html", context={"books":books})
     
-def return_to_shelf(request):
+def return_to_shelf(request, id):
     book = Book.get_book(id=id)
-    if request.POST:
-        Availlable = Status.objects.get(name='Availlable') 
-        book.status = Availlable
-        book.user = None
-        book.save()
+    Availlable = Status.objects.get(name='Availlable') 
+    book.status = Availlable
+    book.borrow_date = None
+    book.borrow_period = None
+    book.user = None
+    book.save()
+    return HttpResponse("Returned To Self")
