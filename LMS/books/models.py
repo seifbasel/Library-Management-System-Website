@@ -13,8 +13,8 @@ class Book(models.Model):
     pages = models.IntegerField(null=True, blank=True)
     active = models.BooleanField(default=True, null=True, blank=True)
     status = models.ForeignKey(Status, on_delete= models.CASCADE, null= True, related_name="books", default="Availlable")
-    rent_date = models.DateField(null=True, blank=True)
-    rent_period = models.IntegerField(null=True, blank=True)
+    borrow_date = models.DateField(null=True, blank=True)
+    borrow_period = models.IntegerField(null=True, blank=True)
     genre =models.ForeignKey(Genre, on_delete= models.CASCADE, null= True, related_name="books")
 
     def __str__(self):

@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponse
 from books.models import Book
+from books.forms import BorrowModelForm
 from status.models import Status
 
 # Create your views here.
@@ -15,8 +16,16 @@ def show(request, id):
 
 def borrow(request, id):
     book = Book.get_book(id=id)
-    status = Status.objects.get(name='Borrowed')
-    book.status = status
-    book.save()
-    return HttpResponse("<h1>Borrowed</h1>")
+    form = BorrowModelForm(instance=book)
+    if request.POST:
+        form = BorrowModelForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            status = Status.objects.get(name='Borrowed')
+            book.status = status
+            book.save()
+            form.save()
+            return HttpResponse("<h1>Borrowed</h1>")
+
+    return render(request , "books/borrowed.html", context={"form":form})
+    
     
