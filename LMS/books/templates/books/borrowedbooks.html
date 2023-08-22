@@ -1,6 +1,6 @@
 {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
 {%for book in books%}
-  <div class="text-center p-5">
+  <div class="text-center p-5 ">
     <h1>{{book.title}} by {{book.author}}</h1>
   </div>
 
@@ -17,13 +17,13 @@
         
         <div class="row justify-content-center align-items-center pt-1">
       
-          <div class=" col-4">
+          <div class=" col-3">
         <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
       </div>
-      <div class=" col-4">
+      <div class=" col-3">
         <a href="{{book.get_borrow_url}}" class="btn btn-danger me-4 ">borrow book</a>
       </div>
-        <div class=" col-4">
+        <div class=" col-3">
         <h5 class="fw-bold text-black text-end text-danger"> status: {{book.status}}</h5>
       </div>
         
@@ -37,10 +37,10 @@
     </div>
     
     
-    <div class="col-1">
+    <div class="col-1 justify-content-center align-items-center">
     </div>
     
-    <div class="col-5">
+    <div class="col-5 justify-content-center align-items-center ps-5 ms-5">
       <img
       class="card-img-top"
       src="{{book.get_image_url}}"

@@ -3,7 +3,9 @@
   
 <div class="row justify-content-center align-items-center">
     <div class="card col-5">
+      
       <h1 class="card-header">name : {{user}}</h1>
+
       <div class="card-body">
         {% for student in students%}
           {%if user.username == student.name%}
@@ -14,30 +16,25 @@
           {%endif%}
         {% endfor%}
         
-        <div class="row justify-content-center align-items-center pt-1">
-          <div class=" col-4">
+        <div class="row justify-content-center align-items-center">
+          <div class=" col-3">
         <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
+        
+
+      </div>
+        <div class=" col-3">
+          <a href="{% url 'books.borrowed'%}" class="btn btn-primary">borrowed books</a>
       </div>
 
-        <div class=" col-6">
+      <div class=" col-3">
+        <a href="#" class="btn btn-primary">edit profile</a>
+    </div>
+    </div>
         
-      </div>
-        
-      </div>
+
 
       
     </div>
-
-      
-  
-    </div>
-
-
-     
-    <div class="col-1">
-    </div>
-
-    <div class="col-5">
       
     </div>
   </div>

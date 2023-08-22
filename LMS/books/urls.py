@@ -8,6 +8,6 @@ urlpatterns = [
     path('', index, name='books.index'),
     path("<int:id>", show, name="books.show"),
     path("books/<int:id>", borrow, name="books.borrow"),
-    path("bb", show_borrowed)
+    path("bb", show_borrowed,name="books.borrowed")
     # path("creat", book_creat_view, name="books.creat"),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
