@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'students/CSS/style.css'%}" />
     <title>base</title>
-    <link rel="stylesheet" href="{% static 'students/bootstrap/css/bootstrap.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'students/bootstrap/css/bootstrap.css' %}"
+    />
     <link rel="stylesheet" href="{% static 'students/css/style.css' %}" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@800&family=Tilt+Prism&display=swap");
@@ -34,27 +37,122 @@
               id="navbarNavAltMarkup"
             >
               <div class="navbar-nav">
-                <a class="nav-link ms-3" href="{% url 'student.index' %}">Home</a>
-                <a class="nav-link ms-3" href=" {% url 'books.index'%}">books</a>
+                <a class="nav-link ms-3" href="{% url 'student.index' %}"
+                  >Home</a
+                >
+                <a class="nav-link ms-3" href=" {% url 'books.index'%}"
+                  >books</a
+                >
                 {% if not user.id %}
-                <a class="nav-link ms-3" href=" {% url 'student.login'%}">login</a>
-                <a class="nav-link ms-3" href="{% url 'student.signup'%}">signup</a>
+                <a class="nav-link ms-3" href=" {% url 'student.login'%}"
+                  >login</a
+                >
+                <a class="nav-link ms-3" href="{% url 'student.signup'%}"
+                  >signup</a
+                >
                 {% else %}
-                <a class="nav-link ms-3" href=" {% url 'student.profile'%}">profile</a>
+                <a class="nav-link ms-3" href=" {% url 'student.profile'%}"
+                  >profile</a
+                >
                 <a class="nav-link ms-3" href=" {% url 'logout'%}">Logout</a>
                 {% endif %}
-                <a class="nav-link ms-3 text-danger" href="{% url 'admin:index' %}"> admin </a>
+                <a
+                  class="nav-link ms-3 text-danger"
+                  href="{% url 'admin:index' %}"
+                >
+                  admin
+                </a>
               </div>
             </div>
           </div>
         </nav>
       </div>
     </header>
-    user : {{user}}
-    
-    {% block 'content'%} {% endblock %}
+    user : {{user}} {% block 'content'%} {% endblock %}
 
     <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+    <div class=" ">
+      <!-- Footer -->
+      <footer class="text-center text-white" style="background-color: #4f709c">
+        <!-- Grid container -->
+        <div class="container">
+          <!-- Section: Links -->
+          <section class="mt-5">
+            <!-- Grid row-->
+            <div class="row text-center d-flex justify-content-center pt-5">
+              <!-- Grid column -->
+              <div class="col-md-2">
+                <h6 class="text-uppercase font-weight-bold">
+                  <a href="{% url 'student.index' %}" class="text-white"
+                    >Home</a
+                  >
+                </h6>
+              </div>
+              <!-- Grid column -->
 
+              <!-- Grid column -->
+              <div class="col-md-2">
+                <h6 class="text-uppercase font-weight-bold">
+                  <a href="{% url 'student.signup'%}" class="text-white"
+                    >signup</a
+                  >
+                </h6>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+
+              {% comment %}
+              <div class="col-md-2">
+                <h6 class="text-uppercase font-weight-bold">
+                  <a href="{% url 'student.login'%}" class="text-white"
+                    >login</a
+                  >
+                </h6>
+              </div>
+              {% endcomment %}
+
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row-->
+          </section>
+          <!-- Section: Links -->
+
+          <hr class="my-5" />
+
+          <!-- Section: Text -->
+          <section class="mb-5">
+            <div class="row d-flex justify-content-center">
+              <div class="col-lg-8">
+                <p>
+                  This website is owned and operated by omar assal and seif
+                  basel. The content of this website,is protected by copyright
+                  law. You may not reproduce, distribute, or modify the content
+                  of this website without the express written permission of omar
+                  assal and seif basel. Online Library Management System is a
+                  free service. However,Thank you for visiting Online Library
+                  Management System. We hope you enjoy our collection of books!
+                </p>
+              </div>
+            </div>
+          </section>
+          <!-- Section: Text -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div
+          class="text-center p-3"
+          style="background-color: rgba(0, 0, 0, 0.2)"
+        >
+          Copyright © 2023, Online Library Management System. All rights
+          reserved.
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!-- Footer -->
+    </div>
+    <!-- End of .container -->
   </body>
 </html>
