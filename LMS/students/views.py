@@ -6,7 +6,6 @@ from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
 
-
 def index(request):
     return render(request, "students/index.html")
 
@@ -30,6 +29,7 @@ class StudentSignUp(CreateView):
         student.phone_number = form.cleaned_data.get('phone_number')
         student.email = form.cleaned_data.get('email')
         student.birthdate = form.cleaned_data.get('birthdate')
+        student.user = user
 
         # Save the Student object
         student.save()
