@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from books.models import Book
 from books.forms import BorrowModelForm
 from status.models import Status
+from students.models import Student
 
 # Create your views here.
 def index(request):
@@ -22,10 +23,14 @@ def borrow(request, id):
         if form.is_valid():
             status = Status.objects.get(name='Borrowed')
             book.status = status
+            book.user = request.user
             book.save()
             form.save()
             return HttpResponse("<h1>Borrowed</h1>")
 
     return render(request , "books/borrowed.html", context={"form":form})
     
+def show_borrowed(request):
+    books = Book.objects.filter(user=request.user)
+    return render(request , "books/borrowedbooks.html", context={"books":books})
     
