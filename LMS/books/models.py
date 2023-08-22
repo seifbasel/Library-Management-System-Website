@@ -2,6 +2,7 @@ from django.db import models
 from genre.models import Genre
 from status.models import Status
 from django.urls import reverse
+from django.contrib.auth.models import User
 # Create your models here.
 class Book(models.Model):
 
@@ -16,6 +17,8 @@ class Book(models.Model):
     borrow_date = models.DateField(null=True, blank=True)
     borrow_period = models.IntegerField(null=True, blank=True)
     genre =models.ForeignKey(Genre, on_delete= models.CASCADE, null= True, related_name="books")
+    user =models.ForeignKey(User, on_delete= models.CASCADE, null= True, related_name="books")
+
 
     def __str__(self):
         return f"{self.title}"
