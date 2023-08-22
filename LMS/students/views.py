@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from students.forms import StudentCreationForm
-from students.models import Student
+from students.models import Student 
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import CreateView
@@ -9,8 +9,13 @@ from django.contrib.auth.models import User
 def index(request):
     return render(request, "students/index.html")
 
+# def profile(request):
+#     return render(request, "students/profile.html")
+
 def profile(request):
-    return render(request, "students/profile.html")
+    students = Student.get_all_students()
+    return render( request, "students/profile.html", context={'students': students} )
+
 
 class StudentSignUp(CreateView):
     model = User
