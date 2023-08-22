@@ -43,5 +43,3 @@ class Book(models.Model):
     
     def get_return_to_shelf_url(self):
         return reverse("books.shelf", args=[self.id])
-    # def get_show_url(self):
-    #     return reverse("books.borrow", args=[self.id])
