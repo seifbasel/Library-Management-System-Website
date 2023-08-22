@@ -1,13 +1,9 @@
 from django.db import models
 from genre.models import Genre
+from status.models import Status
 from django.urls import reverse
 # Create your models here.
 class Book(models.Model):
-    STATUS_CHOICES = (
-        ('available', 'Available'),
-        ('rented', 'Rented'),
-        ('sold', 'Sold'),
-    )
 
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
@@ -16,7 +12,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     pages = models.IntegerField(null=True, blank=True)
     active = models.BooleanField(default=True, null=True, blank=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='available')
+    status = models.ForeignKey(Status, on_delete= models.CASCADE, null= True, related_name="books", default="Availlable")
     rent_date = models.DateField(null=True, blank=True)
     rent_period = models.IntegerField(null=True, blank=True)
     genre =models.ForeignKey(Genre, on_delete= models.CASCADE, null= True, related_name="books")
