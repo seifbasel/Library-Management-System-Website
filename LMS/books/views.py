@@ -7,7 +7,9 @@ from students.models import Student
 
 # Create your views here.
 def index(request):
-    books = Book.get_all_books()
+    # to show only the book with availlable
+    Availlable = Status.objects.get(name='Availlable') 
+    books = Book.objects.filter(status=Availlable)
     return render( request, "books/index.html", context={'books': books} )
 
 
