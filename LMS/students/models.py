@@ -1,7 +1,9 @@
 from django.db import models
 from django.urls import reverse
 # Create your models here.
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
+from books.models import Book
+
 
 class Student(models.Model):
     name = models.CharField(max_length=255)
@@ -10,6 +12,8 @@ class Student(models.Model):
     email = models.EmailField(null=True, blank=True)
     birthdate = models.DateField(max_length=8, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    # borrowed_books = models.ManyToManyField(Book)
+
 
 
     def __str__(self):
@@ -28,8 +32,15 @@ class Student(models.Model):
     
     def get_edit_url(self):
         return reverse("student.edit", args=[self.id])
+
+    # def display_borrowed_books(self):
+    #     return ", ".join([book.title for book in self.borrowed_books.all()])
     
+    # Rest of the methods
+
+
 
     
 
+    
 
