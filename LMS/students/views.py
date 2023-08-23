@@ -28,7 +28,7 @@ class StudentSignUp(CreateView):
         # Map form data to Student model
         student = Student()
         student.name = form.cleaned_data.get('username')
-        student.password = user.password
+        # student.password = user.password
         student.phone_number = form.cleaned_data.get('phone_number')
         student.email = form.cleaned_data.get('email')
         student.birthdate = form.cleaned_data.get('birthdate')
