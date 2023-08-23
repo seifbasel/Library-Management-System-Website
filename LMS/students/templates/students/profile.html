@@ -8,8 +8,6 @@
 
       <div class="card-body">
         {% for student in students%}
-          {{user.id}}
-          {{student.id}}
           {%if user.username == student.name%}
           <h5 class="card-title text-danger pt-1">email : {{student.email}}</h5>
           <p class="card-text fw-bold text-black pt-1">birthdate : {{student.birthdate}}</p>
@@ -27,6 +25,8 @@
         <div class=" col-3">
           <a href="{{student.get_edit_url}}" class="btn btn-primary">edit profile</a>
       </div>
+          {%else%}
+          <h1>There is no data to show</h1>
           {%endif%}
         {% endfor%}
         
