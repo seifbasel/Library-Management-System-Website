@@ -27,4 +27,6 @@ class Student(models.Model):
         return reverse("student.profile", args=[self.id])
     
 
+    
+
 
