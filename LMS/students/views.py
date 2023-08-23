@@ -5,13 +5,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
 
 def index(request):
     return render(request, "students/index.html")
 
-# def profile(request):
-#     return render(request, "students/profile.html")
 
 def profile(request):
     students = Student.get_all_students()

@@ -36,7 +36,9 @@
               id="navbarNavAltMarkup"
             >
               <div class="navbar-nav">
+                {% if user.id %}
                 <a class="nav-link  text-danger bg-body ms-5" style="background-color:#BFDBF7;border-radius:10px;"> {{user}} </a>
+                {% endif %}
                 <a class="nav-link ms-3" href="{% url 'student.index' %}"
                   >Home</a
                 >
