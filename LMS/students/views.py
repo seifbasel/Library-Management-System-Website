@@ -47,13 +47,11 @@ def edit(request, id ):
     student = Student.get_student(id = id)
     if request.method == "POST":
         name = request.POST['name']
-        password = request.POST['password']
         phone_number = request.POST['phone_number']
         email = request.POST['email']
         birthdate = request.POST['birthdate']
 
         student.name = name
-        student.password = password
         student.phone_number = phone_number
         student.email = email
         student.birthdate = birthdate
