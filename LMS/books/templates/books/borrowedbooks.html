@@ -1,4 +1,5 @@
 {%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
+{%if books%}
 {%for book in books%}
   <div class="text-center p-5 ">
     <h1>{{book.title}} by {{book.author}}</h1>
@@ -59,4 +60,11 @@
 
 </div>
 {%endfor%}
+
+{%else%}
+<h1>There is no borrowed books right now</h1>
+<a href="{% url 'books.index'%}" class="btn btn-primary">Go To Books</a>
+{% endif %}
+
+
 {% endblock %}
