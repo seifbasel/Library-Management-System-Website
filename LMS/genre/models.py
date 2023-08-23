@@ -10,7 +10,5 @@ class Genre(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-    @classmethod
-    def get_all_genres(cls):
-        return cls.objects.all()
+
 

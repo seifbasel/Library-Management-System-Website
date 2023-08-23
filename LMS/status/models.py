@@ -10,7 +10,5 @@ class Status(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-    @classmethod
-    def get_all_status(cls):
-        return cls.objects.all()
+
 
