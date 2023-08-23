@@ -12,8 +12,6 @@ class Student(models.Model):
     email = models.EmailField(null=True, blank=True)
     birthdate = models.DateField(max_length=8, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    # borrowed_books = models.ManyToManyField(Book)
-
 
 
     def __str__(self):
@@ -33,10 +31,6 @@ class Student(models.Model):
     def get_edit_url(self):
         return reverse("student.edit", args=[self.id])
 
-    # def display_borrowed_books(self):
-    #     return ", ".join([book.title for book in self.borrowed_books.all()])
-    
-    # Rest of the methods
 
 
 
