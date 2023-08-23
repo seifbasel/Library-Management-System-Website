@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 def index(request):
     return render(request, "students/index.html")
@@ -42,6 +43,26 @@ class StudentSignUp(CreateView):
         return super().form_valid(form)
     
 
+def edit(request, id ):
+    student = Student.get_student(id = id)
+    if request.method == "POST":
+        name = request.POST['name']
+        password = request.POST['password']
+        phone_number = request.POST['phone_number']
+        email = request.POST['email']
+        birthdate = request.POST['birthdate']
 
+        student.name = name
+        student.password = password
+        student.phone_number = phone_number
+        student.email = email
+        student.birthdate = birthdate
 
+        student.save()
+        user = request.user
+        user.username = name
+        user.save()
+        return HttpResponse("Edited")
+        
+    return render(request, "students/edit.html")
 
