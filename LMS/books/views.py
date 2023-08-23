@@ -36,7 +36,11 @@ def borrow(request, id):
 def show_borrowed(request):
     books = Book.objects.filter(user=request.user)
     return render(request , "books/borrowedbooks.html", context={"books":books})
-    
+
+# def view_to_redirect_to(request):
+#     #This could be the view that handles the display of created objects"
+#     return render(request, "students/index.html")    
+
 def return_to_shelf(request, id):
     book = Book.get_book(id=id)
     Availlable = Status.objects.get(name='Availlable') 
@@ -46,3 +50,8 @@ def return_to_shelf(request, id):
     book.user = None
     book.save()
     return HttpResponse("Returned To Self")
+    # return redirect(view_to_redirect_to)
+
+
+
+
