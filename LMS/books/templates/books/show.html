@@ -1,4 +1,11 @@
-{%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
+{%extends 'students/layouts/base.html'%} 
+{%load static%} 
+
+{% block title %}
+{{book.title}}
+{% endblock %}
+
+{% block 'content' %}
 
   <div class="text-center p-5">
     <h1>{{book.title}} by {{book.author}}</h1>

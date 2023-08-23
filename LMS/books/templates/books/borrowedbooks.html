@@ -1,4 +1,7 @@
-{%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
+{%extends 'students/layouts/base.html'%} 
+{%load static%} 
+{% block title %}Borrowed Books{% endblock %}
+{% block 'content' %}
 {%if books%}
 {%for book in books%}
   <div class="text-center p-5 ">

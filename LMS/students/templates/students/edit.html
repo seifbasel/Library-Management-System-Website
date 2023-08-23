@@ -1,4 +1,7 @@
-{%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
+{%extends 'students/layouts/base.html'%} 
+{%load static%} 
+{% block title %}Edit{% endblock %}
+{% block 'content' %}
 <h1 class="text-center">Edit</h1>
 
 {% comment %}
@@ -7,22 +10,8 @@
   <label for="name">Name:</label>
   <input type="text" id="name" name="name" maxlength="255" required />
 
-<<<<<<< HEAD
-  <label for="password">Password:</label>
-  <input
-    type="password"
-    id="password"
-    name="password"
-    maxlength="255"
-    value="1234"
-  />
-
-  <label for="phone_number">Phone Number:</label>
-  <input type="number" id="phone_number" name="phone_number" />
-=======
     <label for="phone_number">Phone Number:</label>
     <input type="number" id="phone_number" name="phone_number">
->>>>>>> bd250331a961c833b41ada55bfd79f1d8398d0de
 
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" />
