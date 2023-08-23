@@ -26,7 +26,8 @@ class Student(models.Model):
     def get_profile_url(self):
         return reverse("student.profile", args=[self.id])
     
-
+    # def get_edit_url(self):
+    #     return reverse("student.edit", args=[self.id])
     
 
 
