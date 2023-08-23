@@ -29,7 +29,7 @@ def borrow(request, id):
             book.save()
             form.save()
             # return HttpResponse("<h1>Borrowed</h1>")
-            return redirect("books/borrowed.html")
+            return redirect("books.borrowed")
 
     return render(request , "books/borrowed.html", context={"form":form})
     
@@ -49,8 +49,9 @@ def return_to_shelf(request, id):
     book.borrow_period = None
     book.user = None
     book.save()
-    return HttpResponse("Returned To Self")
-    # return redirect(view_to_redirect_to)
+    return redirect("books.borrowed")
+    # return HttpResponse("Returned To Self")
+
 
 
 
