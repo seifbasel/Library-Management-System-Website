@@ -60,7 +60,7 @@ def edit(request, id ):
         user = request.user
         user.username = name
         user.save()
-        return HttpResponse("Edited")
+        return redirect("student.profile")
         
     return render(request, "students/edit.html")
 
