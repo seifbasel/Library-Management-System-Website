@@ -6,7 +6,7 @@ from books.models import Book
 
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author','user', 'status', 'borrow_date', 'borrow_period')
+    list_display = ('title', 'author','user', 'status', 'borrow_date', 'borrow_period', "id")
     list_filter = ('status',)
     search_fields = ('title', 'author')
 
