@@ -22,10 +22,9 @@ class StudentSignUp(CreateView):
     template_name = "students/signup.html"
 
     def form_valid(self, form):
-        # Save the User object first
+
         user = form.save()
 
-        # Map form data to Student model
         student = Student()
         student.name = form.cleaned_data.get('username')
         # student.password = user.password
@@ -33,8 +32,6 @@ class StudentSignUp(CreateView):
         student.email = form.cleaned_data.get('email')
         student.birthdate = form.cleaned_data.get('birthdate')
         student.user = user
-
-        # Save the Student object
         student.save()
 
         return super().form_valid(form)
