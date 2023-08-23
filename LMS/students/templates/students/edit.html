@@ -1,23 +1,100 @@
-{%extends 'students/layouts/base.html'%}
-{%load static%}
-{% block 'content' %}
-<h1>Edit</h1>
+{%extends 'students/layouts/base.html'%} {%load static%} {% block 'content' %}
+<h1 class="text-center">Edit</h1>
 
-
+{% comment %}
 <form method="POST">
-    {% csrf_token %}
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" maxlength="255" required>
+  {% csrf_token %}
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" maxlength="255" required />
 
+<<<<<<< HEAD
+  <label for="password">Password:</label>
+  <input
+    type="password"
+    id="password"
+    name="password"
+    maxlength="255"
+    value="1234"
+  />
+
+  <label for="phone_number">Phone Number:</label>
+  <input type="number" id="phone_number" name="phone_number" />
+=======
     <label for="phone_number">Phone Number:</label>
     <input type="number" id="phone_number" name="phone_number">
+>>>>>>> bd250331a961c833b41ada55bfd79f1d8398d0de
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" />
 
-    <label for="birthdate">Birthdate:</label>
-    <input type="date" id="birthdate" name="birthdate">
+  <label for="birthdate">Birthdate:</label>
+  <input type="date" id="birthdate" name="birthdate" />
 
-    <button type="submit">Submit</button>
+  <button type="submit">Submit</button>
 </form>
+{% endcomment %}
+
+<div class="container mt-5">
+  <form class="form-horizontal border-black p-4" action="" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label>Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        placeholder="Enter your name"
+        name="name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>password</label>
+
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        placeholder="Enter the new password"
+        name="password"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>phone number</label>
+      <input
+        type="number"
+        class="form-control"
+        id="phone_number"
+        placeholder="Enter your phone number"
+        name="phone_number"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="Enter your email"
+        name="email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>birthdate</label>
+      <input
+        type="date"
+        class="form-control"
+        id="password"
+        placeholder="Enter your birthdate "
+        name="birthdate"
+      />
+    </div>
+    <button type="submit" value="save" class="btn btn-primary mt-3">
+      Submit
+    </button>
+  </form>
+</div>
 {% endblock %}
