@@ -4,7 +4,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'students/CSS/style.css'%}" />
     <title>{% block title %} base {% endblock %}</title>
     <link
       rel="stylesheet"
@@ -62,6 +61,7 @@
                 >
                   admin
                 </a>
+                <a class="nav-link ms-3 text-danger"> {{user}} </a>
               </div>
             </div>
           </div>
@@ -69,13 +69,8 @@
       </div>
     </header>
     <div class="content">
-      <div style="min-height: 500px;">
-          user : {{user}}
-          {% block 'content'%}
-
-          {% endblock %}
-      </div>
-  </div>
+      <div style="min-height: 500px">{% block 'content'%} {% endblock %}</div>
+    </div>
 
     <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>
     <!-- Remove the container if you want to extend the Footer to full width. -->
