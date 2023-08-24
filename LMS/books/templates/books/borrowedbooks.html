@@ -3,8 +3,8 @@
 {% block title %}Borrowed Books{% endblock %}
 {% block 'content' %}
 {%if books%}
-{%for book in books%}
 <h1 class="form-title">Your Borrowed Books</h1>
+{%for book in books%}
   <div class="text-center p-5 ">
     <h2>{{book.title}} by {{book.author}}</h2>
   </div>
