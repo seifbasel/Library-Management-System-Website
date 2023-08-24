@@ -58,13 +58,15 @@
                 >
                 <a class="nav-link ms-3" href=" {% url 'logout'%}">Logout</a>
                 {% endif %}
+                
+                {%if not user.id%}
                 <a
                   class="nav-link ms-3 text-dark me-5" style="background-color:#BFDBF7;border-radius:10px"
                   href="{% url 'admin:index' %}"
                 >
                   admin login
                 </a>
-                
+                {%endif%}
               </div>
             </div>
           </div>
