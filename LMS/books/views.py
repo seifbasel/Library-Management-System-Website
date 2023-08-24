@@ -42,8 +42,8 @@ def borrow(request, id):
 def show_borrowed(request):
     books = Book.objects.filter(user=request.user)
     return render(request , "books/borrowedbooks.html", context={"books":books})
- 
- 
+
+
 def return_to_shelf(request, id):
     book = Book.get_book(id=id)
     Availlable = Status.objects.get(name='Availlable') 
