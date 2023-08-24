@@ -2,11 +2,11 @@
 {%load static%} 
 {% block title %}Borrow Book{% endblock %}
 {% block 'content' %}
-<h1>Borrow Book</h1>
+<h1 class="form-title">Borrow Book</h1>
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <label for="borrow_period">Enter Days:</label>
-    <input type="number" id="borrow_period" name="borrow_period" required>
+    <label for="borrow_period">Enter the number of days you wish to borrow this book 😃:</label>
+    <input type="number" id="borrow_period" name="borrow_period" required placeholder="days">
     <button type="submit" class="btn btn-primary">Borrow</button>
   </form>
 {% endblock %}

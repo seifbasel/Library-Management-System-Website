@@ -39,9 +39,40 @@ body{
   background-color: #213555;
 }
 
+/* form style by omar*/
 form{
-    background-color: #4F709C;
-    border-radius: 5px
+    background-color: #e9eff8;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+    width: 50%;
+    margin: auto;
+    
+}
+
+form input {
+  display: block;
+  width: 50%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  outline: none;
+
+}
+form label {
+  font-weight: bold;
+  
+}
+form span {
+  display: block;
+}
+/* End of Form Styling */
+.form-title {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+
 }
 
 /* ##### Books Pages Style ########*/
@@ -55,7 +86,7 @@ form{
 .card{
   margin: 20px;
 }
-
+/* The field that contain Books in Books page Style */
 .landing {
   background-color: #f8f8f8;
   height: 300px;
@@ -69,3 +100,4 @@ form{
   font-size: 100px;
   font-weight: 700;
 }
+/*End The field that contain Books in Books page Style */
