@@ -4,13 +4,14 @@
 {% block 'content' %}
 {%if books%}
 {%for book in books%}
+<h1 class="form-title">Your Borrowed Books</h1>
   <div class="text-center p-5 ">
-    <h1>{{book.title}} by {{book.author}}</h1>
+    <h2>{{book.title}} by {{book.author}}</h2>
   </div>
 
 <div class="row justify-content-center align-items-center">
     <div class="card col-5">
-      <h1 class="card-header">Title : {{book.title}}</h1>
+      <h2 class="card-header">Title : {{book.title}}</h2>
       <div class="card-body">
         <h5 class="card-title text-danger pt-1">Author : {{book.author}}</h5>
         <h5>description: </h5>
