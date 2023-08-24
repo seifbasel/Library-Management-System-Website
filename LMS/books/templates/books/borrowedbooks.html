@@ -63,8 +63,9 @@
 {%endfor%}
 
 {%else%}
-<h1>There is no borrowed books right now</h1>
-<a href="{% url 'books.index'%}" class="btn btn-primary">Go To Books</a>
+  <h1>There is no borrowed books right now</h1>
+  <a href="{% url 'books.index'%}" class="btn btn-primary">Go To Books</a>
+
 {% endif %}
 
 
