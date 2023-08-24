@@ -56,5 +56,5 @@ def edit(request, id ):
         user.save()
         return redirect("student.profile")
         
-    return render(request, "students/edit.html")
+    return render(request, "students/edit.html" , context={'student':student})
 

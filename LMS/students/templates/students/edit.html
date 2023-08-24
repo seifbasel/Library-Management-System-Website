@@ -6,7 +6,7 @@
 
 
 <div class="container mt-5">
-  <form class="form-horizontal border-black p-4" action="" method="post">
+  <form class="form-horizontal border-black p-4" action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
       <label>Name</label>
@@ -16,6 +16,7 @@
         id="name"
         placeholder="Enter your name"
         name="name"
+        value="{{student.name}}"
       />
     </div>
 
@@ -28,6 +29,7 @@
         id="phone_number"
         placeholder="Enter your phone number"
         name="phone_number"
+        value="{{student.phone_number}}"
       />
     </div>
 
@@ -39,6 +41,7 @@
         id="email"
         placeholder="Enter your email"
         name="email"
+        value="{{student.email}}"
       />
     </div>
 
@@ -47,9 +50,9 @@
       <input
         type="date"
         class="form-control"
-        id="password"
         placeholder="Enter your birthdate "
         name="birthdate"
+        value="{{student.birthdate|date:'Y-m-d'}}"
       />
     </div>
     <button type="submit" value="save" class="btn btn-primary mt-3">
