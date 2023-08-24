@@ -50,6 +50,7 @@ def return_to_shelf(request, id):
     book.status = Availlable
     book.borrow_date = None
     book.borrow_period = None
+    book.return_date =None
     book.user = None
     book.save()
     return redirect("books.borrowed")
