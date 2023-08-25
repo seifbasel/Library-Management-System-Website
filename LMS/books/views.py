@@ -33,7 +33,7 @@ def borrow(request, id):
             book.return_date = return_date
             book.save()
             return redirect("books.borrowed")
-    return render(request , "books/borrowed.html")
+    return render(request , "books/borrow.html")
             
 
 
