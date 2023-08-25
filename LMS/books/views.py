@@ -6,7 +6,7 @@ from status.models import Status
 
 # Create your views here.
 def index(request):
-    # to show only the book with availlable
+    # to show only the book with availlable status
     Availlable = Status.objects.get(name='Availlable') 
     books = Book.objects.filter(status=Availlable)
     return render( request, "books/index.html", context={'books': books} )
