@@ -48,7 +48,3 @@ This is a web-based library management system with separate modules for administ
 - **Borrowed Book Details:**
   - View information about the borrowed book and its return date-time.
 
-## Project Structure
-
-The project is structured as follows:
-
