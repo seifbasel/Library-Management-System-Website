@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-)lf679oksx)sj+wk9#sn!ap@2hq_5vb6q7n-qykog-5b6#b_=9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://c4y-devoted-torricelli.circumeo-apps.net/','localhost', '127.0.0.1']
 
 
 # Application definition
@@ -128,8 +129,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = "/media/"
-
-import os
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
