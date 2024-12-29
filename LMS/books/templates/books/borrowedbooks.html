@@ -1,73 +1,154 @@
-{%extends 'students/layouts/base.html'%} 
-{%load static%} 
+{% extends 'students/layouts/base.html' %}
+{% load static %}
 {% block title %}Borrowed Books{% endblock %}
 {% block 'content' %}
-{%if books%}
-<h1 class="form-title">Your Borrowed Books</h1>
-{%for book in books%}
-  <div class="text-center p-5 ">
-    <h2>{{book.title}} by {{book.author}}</h2>
-  </div>
+<style>
+    .borrowed-books-header {
+        background-color: #E9EFF8;
+        padding: 30px 0;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
 
-<div class="row justify-content-center align-items-center">
-    <div class="card col-5">
-      <h2 class="card-header">Title : {{book.title}}</h2>
-      <div class="card-body">
-        <h5 class="card-title text-danger pt-1">Author : {{book.author}}</h5>
-        <h5>description: </h5>
-        <p class="card-text">{{book.description}}</p>
-        <p class="card-text fw-bold text-black pt-1">Genre : {{book.genre}}</p>
-        <p class="card-text fw-bold text-black pt-1">number of pages : {{book.pages}}</p>
-        <p class="card-text fw-bold text-black pt-1">borrow date : {{book.borrow_date}}</p>
-        <p class="card-text fw-bold text-black pt-1">borrow period : {{book.borrow_period}} Days</p>
-        <p class="card-text fw-bold text-black pt-1">Return Date : {{book.return_date}}</p>
-        <h5 class="card-text fw-bold text-black pt-1">Price : ${{book.price}}</h5>
-        
-        <div class="row justify-content-center align-items-center pt-1">
-      
-          <div class=" col-4">
-        <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
-      </div>
-      <div class=" col-4">
-        <a href="{{book.get_return_to_shelf_url}}" class="btn btn-warning me-4 ">return to shelf</a>
-      </div>
-        <div class=" col-10 justify-content-center align-align-items-center">
-        <h5 class="fw-bold text-black text-end text-danger pt-5"> status: {{book.status}}</h5>
-      </div>
-        
-      </div>
+    .book-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
 
-      
+    .book-card .card-header {
+        background: #4F709C;
+        color: white;
+        padding: 15px 20px;
+    }
+
+    .book-info {
+        margin-bottom: 15px;
+    }
+
+    .book-info-label {
+        color: #4F709C;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .book-info-value {
+        color: #213555;
+    }
+
+    .book-image {
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .book-image:hover {
+        transform: scale(1.02);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background: #FF7477;
+        color: white;
+        font-weight: 500;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        background: #E9EFF8;
+        border-radius: 15px;
+        margin-top: 50px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+</style>
+
+{% if books %}
+    <div class="borrowed-books-header">
+        <h1 class="text-center">Your Borrowed Books</h1>
     </div>
 
-      
-  
+    {% for book in books %}
+    <div class="container">
+        <div class="book-card">
+            <div class="card-header">
+                <h2 class="mb-0">{{book.title}} by {{book.author}}</h2>
+            </div>
+            
+            <div class="row p-4">
+                <div class="col-md-7">
+                    <div class="book-info">
+                        <div class="book-info-label">Description</div>
+                        <p class="book-info-value">{{book.description}}</p>
+                    </div>
+
+                    <div class="book-info">
+                        <div class="book-info-label">Genre</div>
+                        <p class="book-info-value">{{book.genre}}</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="book-info">
+                                <div class="book-info-label">Pages</div>
+                                <p class="book-info-value">{{book.pages}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="book-info">
+                                <div class="book-info-label">Price</div>
+                                <p class="book-info-value">${{book.price}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="book-info">
+                        <div class="book-info-label">Borrow Details</div>
+                        <p class="book-info-value">
+                            Borrowed on: {{book.borrow_date}}<br>
+                            Period: {{book.borrow_period}} Days<br>
+                            Return by: {{book.return_date}}
+                        </p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="{% url 'books.index' %}" class="btn btn-primary">Browse Books</a>
+                        <a href="{{book.get_return_to_shelf_url}}" class="btn btn-warning">Return Book</a>
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="status-badge">Status: {{book.status}}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <img
+                        class="book-image img-fluid"
+                        src="{{book.get_image_url}}"
+                        alt="{{book.title}}"
+                        style="max-height: 450px; width: 100%; object-fit: contain;"
+                    />
+                </div>
+            </div>
+        </div>
     </div>
-    
-    
-    <div class="col-1 justify-content-center align-items-center">
+    {% endfor %}
+
+{% else %}
+    <div class="empty-state">
+        <h1 class="mb-4">No Borrowed Books</h1>
+        <p class="mb-4">You haven't borrowed any books yet. Start exploring our collection!</p>
+        <a href="{% url 'books.index' %}" class="btn btn-primary">Browse Books</a>
     </div>
-    
-    <div class="col-5 justify-content-center align-items-center ps-5 ms-5">
-      <img
-      class="card-img-top"
-      src="{{book.get_image_url}}"
-      alt="Card image cap"
-      style="height: 450px;width:300px"
-      />
-    </div>
-  </div>
-</div>
-
-
-</div>
-{%endfor%}
-
-{%else%}
-  <h1>There is no borrowed books right now</h1>
-  <a href="{% url 'books.index'%}" class="btn btn-primary">Go To Books</a>
-
 {% endif %}
-
 
 {% endblock %}

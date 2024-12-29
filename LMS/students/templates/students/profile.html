@@ -1,43 +1,153 @@
-{%extends 'students/layouts/base.html'%} 
-{%load static%} 
+{% extends 'students/layouts/base.html' %}
+{% load static %}
 {% block title %}Profile{% endblock %}
 
 {% block 'content' %}
+<style>
+    .profile-container {
+        padding: 40px 20px;
+    }
 
-  
-<div class="row justify-content-center align-items-center">
-    <div class="card col-5">
-      
-      <h1 class="card-header text-danger">name : {{user}}</h1>
+    .profile-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        max-width: 600px;
+        margin: auto;
+    }
 
-      <div class="card-body">
-        {% for student in students%}
-          {%if user.username == student.name%}
-          <h5 class="card-text fw-bold pt-2 pb-2">email : {{student.email}}</h5>
-          <p class="card-text fw-bold pt-2 pb-2">birthdate : {{student.birthdate}}</p>
-          <p class="card-text  fw-bold pt-2 pb-2">phone number : {{student.phone_number}}</p>
+    .profile-header {
+        background: #4F709C;
+        color: white;
+        padding: 20px;
+        font-size: 1.5rem;
+    }
 
-          <div class="row justify-content-center align-items-center">
-            <div class=" col-3">
-          <a href="{% url 'books.index'%}" class="btn btn-primary">return to books</a>
-          
-  
+    .profile-body {
+        padding: 30px;
+    }
+
+    .profile-info {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #E9EFF8;
+        padding-bottom: 15px;
+    }
+
+    .info-label {
+        color: #4F709C;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        color: #213555;
+        font-size: 1.1rem;
+    }
+
+    .profile-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .profile-actions .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        flex: 1;
+        min-width: 150px;
+        max-width: 200px;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: #4F709C;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #213555;
+        transform: translateY(-2px);
+    }
+
+    /* Message styles */
+    .messages {
+        max-width: 600px;
+        margin: 0 auto 20px;
+    }
+
+    .message {
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        color: white;
+    }
+
+    .success {
+        background-color: #28a745;
+    }
+
+    .error {
+        background-color: #dc3545;
+    }
+
+    @media (max-width: 768px) {
+        .profile-actions {
+            flex-direction: column;
+        }
+        .profile-actions .btn {
+            max-width: 100%;
+        }
+    }
+</style>
+
+<div class="profile-container">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
         </div>
-          <div class=" col-3">
-            <a href="{% url 'books.borrowed'%}" class="btn btn-primary">borrowed books</a>
-        </div>
-  
-        <div class=" col-3">
-          <a href="{{student.get_edit_url}}" class="btn btn-primary">Edit profile Data</a>
-      </div>
-          {%endif%}
-          
-        {% endfor%}
-        
+        {% endfor %}
     </div>
-  
-  </div>
+    {% endif %}
+
+    <div class="profile-card">
+        <div class="profile-header">
+            Welcome, {{ user.username }}
+        </div>
+
+        <div class="profile-body">
+            <div class="profile-info">
+                <div class="info-label">Email</div>
+                <div class="info-value">{{ student.email }}</div>
+            </div>
+
+            <div class="profile-info">
+                <div class="info-label">Birthdate</div>
+                <div class="info-value">{{ student.birthdate }}</div>
+            </div>
+
+            <div class="profile-info">
+                <div class="info-label">Phone Number</div>
+                <div class="info-value">{{ student.phone_number }}</div>
+            </div>
+
+            <div class="profile-actions">
+                <a href="{% url 'books.index' %}" class="btn btn-primary">
+                    Browse Books
+                </a>
+                <a href="{% url 'books.borrowed' %}" class="btn btn-primary">
+                    Borrowed Books
+                </a>
+                <a href="{{ student.get_edit_url }}" class="btn btn-primary">
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 {% endblock %}

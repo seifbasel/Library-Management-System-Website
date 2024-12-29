@@ -1,25 +1,29 @@
+# books/models.py
 from django.db import models
 from genre.models import Genre
 from status.models import Status
 from django.urls import reverse
 from django.contrib.auth.models import User
-# Create your models here.
-#hello
-class Book(models.Model):
 
+class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='books/images',null=True, blank=True)
+    image = models.ImageField(upload_to='books/images', null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     pages = models.IntegerField(null=True, blank=True)
-    status = models.ForeignKey(Status, on_delete= models.CASCADE, null= True, related_name="books", default="Availlable")
+    status = models.ForeignKey(
+        Status, 
+        on_delete=models.CASCADE, 
+        null=True, 
+        related_name="books", 
+        default=1  # We'll set this to the ID of the 'Available' status
+    )
     borrow_date = models.DateField(null=True, blank=True)
     borrow_period = models.IntegerField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
-    genre =models.ForeignKey(Genre, on_delete= models.CASCADE, null= True, related_name="books")
-    user =models.ForeignKey(User, on_delete= models.CASCADE, null= True, blank=True, related_name="books")
-
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, null=True, related_name="books")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="books")
 
     def __str__(self):
         return f"{self.title}"

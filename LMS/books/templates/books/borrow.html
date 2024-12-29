@@ -1,12 +1,89 @@
-{%extends 'students/layouts/base.html'%} 
-{%load static%} 
+{% extends 'students/layouts/base.html' %}
+{% load static %}
 {% block title %}Borrow Book{% endblock %}
 {% block 'content' %}
-<h1 class="form-title">Borrow Book</h1>
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label for="borrow_period">Enter the number of days you wish to borrow this book 😃:</label>
-    <input type="number" id="borrow_period" name="borrow_period" required placeholder="days">
-    <button type="submit" class="btn btn-primary">Borrow</button>
-  </form>
+<style>
+    .borrow-container {
+        max-width: 600px;
+        margin: 50px auto;
+    }
+
+    .borrow-form {
+        background-color: #E9EFF8;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .borrow-title {
+        color: #213555;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 700;
+    }
+
+    .form-label {
+        color: #4F709C;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid rgba(79, 112, 156, 0.2);
+        border-radius: 8px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #4F709C;
+        box-shadow: 0 0 0 3px rgba(79, 112, 156, 0.1);
+    }
+
+    .borrow-btn {
+        background-color: #4F709C;
+        color: white;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .borrow-btn:hover {
+        background-color: #213555;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="borrow-container">
+    <div class="borrow-form">
+        <h1 class="borrow-title">Borrow Book</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="borrow_period" class="form-label">
+                    How many days would you like to borrow this book? 📚
+                </label>
+                <input 
+                    type="number" 
+                    id="borrow_period" 
+                    name="borrow_period" 
+                    required 
+                    placeholder="Enter number of days"
+                    min="1"
+                    max="30"
+                    class="form-input"
+                >
+                <small class="text-muted">Maximum borrowing period is 30 days</small>
+            </div>
+            <button type="submit" class="borrow-btn">Borrow Book</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

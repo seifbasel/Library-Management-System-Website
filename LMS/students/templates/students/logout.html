@@ -1,0 +1,16 @@
+{% extends 'students/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Logged Out{% endblock %}
+
+{% block 'content' %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="mb-4">You have been logged out successfully.</h1>
+            <p>Return to <a href="{% url 'student.index' %}">Home</a> or 
+               <a href="{% url 'student.login' %}">Login again</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

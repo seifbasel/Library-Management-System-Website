@@ -5,13 +5,80 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} base {% endblock %}</title>
-    <link
-      rel="stylesheet"
-      href="{% static 'students/bootstrap/css/bootstrap.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'students/bootstrap/css/bootstrap.css' %}" />
     <link rel="stylesheet" href="{% static 'students/css/style.css' %}" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@800&family=Tilt+Prism&display=swap");
+
+      /* Navigation Styles */
+      #main_nav {
+        background-color: #4F709C;
+      }
+
+      .navbar-brand {
+        background-color: #E9EFF8;
+        border-radius: 10px;
+        padding: 8px 20px;
+        font-weight: 700;
+        color: #213555 !important;
+        transition: transform 0.3s ease;
+      }
+
+      .navbar-brand:hover {
+        transform: translateY(-2px);
+      }
+
+      .nav-link {
+        color: #FEFFFE !important;
+        padding: 8px 16px !important;
+        margin: 0 5px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .user-badge {
+        background-color: #E9EFF8 !important;
+        color: #213555 !important;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      .logout-btn {
+        background: none;
+        border: none;
+        color: #FEFFFE;
+        font-size: 20px;
+        padding: 8px 16px !important;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+      }
+
+      .logout-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .admin-link {
+        background-color: #E9EFF8 !important;
+        color: #213555 !important;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      @media (max-width: 991.98px) {
+        .nav-link {
+          margin: 5px 0;
+        }
+        .navbar-toggler {
+          background-color: #E9EFF8;
+        }
+      }
     </style>
   </head>
   <body>
@@ -19,7 +86,7 @@
       <div>
         <nav class="navbar navbar-expand-lg" id="main_nav">
           <div class="container-fluid">
-            <a class="navbar-brand" style="background-color:#fFfBF7;border-radius:10px">LMS</a>
+            <a class="navbar-brand">LMS</a>
             <button
               class="navbar-toggler"
               type="button"
@@ -31,43 +98,32 @@
             >
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div
-              class="collapse navbar-collapse justify-content-center me-5 align-items-center"
-              id="navbarNavAltMarkup"
-            >
-              <div class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav mx-auto">
                 {% if user.id %}
-                <a class="nav-link  text-danger bg-body ms-5" style="background-color:#BFDBF7;border-radius:10px;"> {{user}} </a>
+                <a class="nav-link user-badge">{{user}}</a>
                 {% endif %}
-                <a class="nav-link ms-3" href="{% url 'student.index' %}"
-                  >Home</a
-                >
-                <a class="nav-link ms-3" href=" {% url 'books.index'%}"
-                  >books</a
-                >
+                <a class="nav-link ms-3" href="{% url 'student.index' %}">Home</a>
+                <a class="nav-link ms-3" href="{% url 'books.index' %}">Books</a>
                 {% if not user.id %}
-                <a class="nav-link ms-3" href=" {% url 'student.login'%}"
-                  >login</a
-                >
-                <a class="nav-link ms-3" href="{% url 'student.signup'%}"
-                  >signup</a
-                >
+                <a class="nav-link ms-3" href="{% url 'student.login' %}">Login</a>
+                <a class="nav-link ms-3" href="{% url 'student.signup' %}">Sign up</a>
                 {% else %}
-                <a class="nav-link ms-3" href=" {% url 'student.profile'%}"
-                  >profile</a
-                >
-                <a class="nav-link ms-3" href=" {% url 'logout'%}">Logout</a>
+                <a class="nav-link ms-3" href="{% url 'student.profile' %}">Profile</a>
+                <form method="post" action="{% url 'student.logout' %}" style="background:none; padding:0; margin:0; width:auto; display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="logout-btn">Logout</button>
+                </form>
                 {% endif %}
-                
-                {%if not user.id%}
-                <a
-                  class="nav-link ms-3 text-dark me-5" style="background-color:#BFDBF7;border-radius:10px"
-                  href="{% url 'admin:index' %}"
-                >
-                  admin login
-                </a>
-                {%endif%}
               </div>
+              
+              {%if not user.id%}
+              <div class="navbar-nav">
+                <a class="nav-link admin-link" href="{% url 'admin:index' %}">
+                  Admin Login
+                </a>
+              </div>
+              {%endif%}
             </div>
           </div>
         </nav>
@@ -78,45 +134,7 @@
       <div style="min-height: 500px">{% block 'content'%} {% endblock %}</div>
     </div>
 
-    <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>
-      <!-- Footer -->
-      <footer class="text-center text-white" style="background-color: #4f709c">
-        <!-- Grid container -->
-        <div class="container">
-          <hr class="my-5" />
-
-          <!-- Section: Text -->
-          <section class="mb-5">
-            <div class="row d-flex justify-content-center">
-              <div class="col-lg-8">
-                <p>
-                  This website is owned and operated by omar assal and seif
-                  basel. The content of this website,is protected by copyright
-                  law. You may not reproduce, distribute, or modify the content
-                  of this website without the express written permission of omar
-                  assal and seif basel. Online Library Management System is a
-                  free service. However,Thank you for visiting Online Library
-                  Management System. We hope you enjoy our collection of books!
-                </p>
-              </div>
-            </div>
-          </section>
-          <!-- Section: Text -->
-        </div>
-        <!-- Grid container -->
-
-        <!-- Copyright -->
-        <div
-          class="text-center p-4"
-          style="background-color: rgba(0, 0, 0, 0.2)"
-        >
-          Copyright © 2023, Online Library Management System. All rights
-          reserved.
-        </div>
-        <!-- Copyright -->
-      </footer>
-      <!-- Footer -->
+    <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>      
     </div>
-    <!-- End of .container -->
   </body>
 </html>

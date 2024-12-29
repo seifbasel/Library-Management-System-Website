@@ -1,12 +1,59 @@
-{%extends 'students/layouts/base.html'%}
-{%load static%}
+{% extends 'students/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
 {% block 'content' %}
-<h1 class="form-title">Login</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="form-title text-center mb-4">Login</h1>
+            <form method="post" class="p-4 border rounded">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="{% url 'student.signup' %}">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<style>
+    form input {
+        width: 100% !important;
+        padding: 8px !important;
+        margin-bottom: 15px !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 4px !important;
+    }
+    
+    form {
+        background-color: #e9eff8;
+        padding: 20px;
+        border-radius: 10px;
+        color: black;
+        width: 100%;
+    }
 
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+</style>
 {% endblock %}
