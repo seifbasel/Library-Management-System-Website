@@ -1,3 +1,1 @@
-from django.shortcuts import render
-
-# Create your views here.
+# No views yet - Genre is currently managed entirely through Django admin.

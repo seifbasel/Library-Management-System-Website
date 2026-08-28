@@ -1,63 +1,52 @@
-{%extends 'students/layouts/base.html'%} 
-{%load static%} 
-{% block title %}Edit{% endblock %}
-{% block 'content' %}
-<h1 class="text-center form-title">Edit</h1>
+{% extends 'students/layouts/base.html' %}
+{% load static %}
+{% block title %}Edit profile · LMS Library{% endblock %}
+{% block page_width %}--narrow{% endblock %}
 
+{% block content %}
+<div class="card" style="max-width: 480px; margin: var(--space-8) auto">
+  <div class="card-body">
+    <h1>Edit profile</h1>
+    <p style="margin-bottom: var(--space-6)">Update your personal information.</p>
 
-<div class="container mt-5">
-  <form class="form-horizontal border-black p-4" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="form-group">
-      <label>Name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        placeholder="Enter your name"
-        name="name"
-        value="{{student.name}}"
-      />
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
     </div>
+    {% endif %}
 
+    <form method="post">
+      {% csrf_token %}
+      <div class="field">
+        <label class="field-label" for="{{ form.name.id_for_label }}">Name</label>
+        {{ form.name }}
+        {% for error in form.name.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+      </div>
 
-    <div class="form-group">
-      <label>phone number:</label>
-      <input
-        type="number"
-        class="form-control"
-        id="phone_number"
-        placeholder="Enter your phone number"
-        name="phone_number"
-        value="{{student.phone_number}}"
-      />
-    </div>
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label" for="{{ form.phone_number.id_for_label }}">Phone number</label>
+          {{ form.phone_number }}
+          {% for error in form.phone_number.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+        <div class="field">
+          <label class="field-label" for="{{ form.birthdate.id_for_label }}">Birthdate</label>
+          {{ form.birthdate }}
+          {% for error in form.birthdate.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label>email:</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        placeholder="Enter your email"
-        name="email"
-        value="{{student.email}}"
-      />
-    </div>
+      <div class="field">
+        <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+      </div>
 
-    <div class="form-group">
-      <label>birthdate:</label>
-      <input
-        type="date"
-        class="form-control"
-        placeholder="Enter your birthdate "
-        name="birthdate"
-        value="{{student.birthdate|date:'Y-m-d'}}"
-      />
-    </div>
-    <button type="submit" value="save" class="btn btn-primary mt-3">
-      Submit
-    </button>
-  </form>
+      <div style="display: flex; gap: var(--space-3)">
+        <a href="{% url 'students:profile' %}" class="btn btn-secondary btn-block">Cancel</a>
+        <button type="submit" class="btn btn-primary btn-block">Save changes</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

@@ -1,174 +1,57 @@
 {% extends 'students/layouts/base.html' %}
 {% load static %}
+{% block title %}{{ book.title }} · LMS Library{% endblock %}
 
-{% block title %}
-{{book.title}}
-{% endblock %}
+{% block content %}
+<a href="{% url 'books:index' %}" class="text-small" style="display: inline-flex; align-items: center; gap: 4px; margin-bottom: var(--space-5)">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  Back to catalog
+</a>
 
-{% block 'content' %}
-<style>
-    .book-header {
-        background: linear-gradient(135deg, #4F709C 0%, #213555 100%);
-        padding: 40px 0;
-        margin-bottom: 40px;
-        color: white;
-    }
-
-    .book-header h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
-        margin: 0;
-    }
-
-    .book-container {
-        padding: 0 40px;
-        margin-bottom: 40px;
-    }
-
-    .book-image {
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .book-image:hover {
-        transform: scale(1.02);
-    }
-
-    .book-details {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-
-    .book-details .card-header {
-        background: #4F709C;
-        color: white;
-        padding: 20px;
-        font-size: 1.5rem;
-        border: none;
-    }
-
-    .book-details .card-body {
-        padding: 30px;
-    }
-
-    .book-info {
-        margin-bottom: 20px;
-    }
-
-    .book-info-label {
-        color: #4F709C;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-
-    .book-info-value {
-        font-size: 1.1rem;
-        color: #213555;
-        margin-bottom: 15px;
-    }
-
-    .book-description {
-        background: #E9EFF8;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-    }
-
-    .book-status {
-        display: inline-block;
-        padding: 8px 15px;
-        border-radius: 20px;
-        background: #FF7477;
-        color: white;
-        font-weight: 500;
-    }
-
-    .action-buttons {
-        margin-top: 30px;
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-    }
-</style>
-
-<div class="book-header">
-    <div class="container text-center">
-        <h1>{{book.title}} by {{book.author}}</h1>
+<div class="card" style="overflow: hidden">
+  <div class="row g-0">
+    <div class="col-md-5">
+      <img
+        src="{{ book.get_image_url }}"
+        alt="{{ book.title }}"
+        style="width: 100%; height: 100%; min-height: 320px; object-fit: cover; background-color: var(--color-border-subtle)"
+      />
     </div>
-</div>
-
-<div class="book-container">
-    <div class="row justify-content-center align-items-start">
-        <div class="col-md-6 col-lg-5 mb-4">
-            <div class="book-details">
-                <div class="card-header">
-                    Book Details
-                </div>
-                <div class="card-body">
-                    <div class="book-info">
-                        <div class="book-info-label">Author</div>
-                        <div class="book-info-value">{{book.author}}</div>
-
-                        <div class="book-info-label">Genre</div>
-                        <div class="book-info-value">{{book.genre}}</div>
-
-                        <div class="book-info-label">Pages</div>
-                        <div class="book-info-value">{{book.pages}}</div>
-
-                        <div class="book-info-label">Price</div>
-                        <div class="book-info-value">${{book.price}}</div>
-                    </div>
-
-                    {% if book.description %}
-                    <div class="book-description">
-                        <div class="book-info-label">Description</div>
-                        <p class="mb-0">{{book.description}}</p>
-                    </div>
-                    {% endif %}
-
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="book-status">
-                            Status: {{book.status}}
-                        </div>
-                    </div>
-
-                    <div class="action-buttons">
-                        <a href="{% url 'books.index'%}" class="btn btn-primary">
-                            Return to Books
-                        </a>
-                        {% if book.status.name == 'Available' %}
-                        <a href="{{book.get_borrow_url}}" class="btn btn-danger">
-                            Borrow Book
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+    <div class="col-md-7">
+      <div class="card-body" style="height: 100%; display: flex; flex-direction: column">
+        <div class="flex-between" style="align-items: flex-start; margin-bottom: var(--space-3)">
+          <div>
+            <h1 style="margin-bottom: var(--space-1)">{{ book.title }}</h1>
+            <p class="mt-0">by {{ book.author }}</p>
+          </div>
+          {% if book.is_available %}
+          <span class="badge badge-success">Available</span>
+          {% else %}
+          <span class="badge badge-neutral">Currently borrowed</span>
+          {% endif %}
         </div>
 
-        <div class="col-md-6 col-lg-5">
-            <img
-                class="book-image img-fluid"
-                src="{{book.get_image_url}}"
-                alt="{{book.title}}"
-                style="max-height: 650px; width: 100%; object-fit: contain;"
-            />
+        <div class="flex-between" style="margin-bottom: var(--space-5); gap: var(--space-4); flex-wrap: wrap">
+          {% if book.genre %}<span class="badge badge-info">{{ book.genre }}</span>{% endif %}
+          {% if book.pages %}<span class="text-small">{{ book.pages }} pages</span>{% endif %}
+          <strong style="font-size: 1.25rem">${{ book.price }}</strong>
         </div>
+
+        {% if book.description %}
+        <div style="background-color: var(--color-background); border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-5)">
+          <p class="mt-0" style="color: var(--color-text-secondary)">{{ book.description }}</p>
+        </div>
+        {% endif %}
+
+        <div style="margin-top: auto; display: flex; gap: var(--space-3)">
+          {% if book.is_available %}
+          <a href="{{ book.get_borrow_url }}" class="btn btn-primary">Borrow this book</a>
+          {% else %}
+          <button class="btn btn-secondary" disabled aria-disabled="true">Currently unavailable</button>
+          {% endif %}
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}

@@ -1,154 +1,64 @@
 {% extends 'students/layouts/base.html' %}
 {% load static %}
-{% block title %}Borrowed Books{% endblock %}
-{% block 'content' %}
-<style>
-    .borrowed-books-header {
-        background-color: #E9EFF8;
-        padding: 30px 0;
-        border-radius: 15px;
-        margin-bottom: 30px;
-    }
+{% block title %}My Loans · LMS Library{% endblock %}
 
-    .book-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        overflow: hidden;
-        margin-bottom: 40px;
-    }
+{% block content %}
+<h1>My Loans</h1>
+<p style="margin-bottom: var(--space-6)">Books you currently have borrowed.</p>
 
-    .book-card .card-header {
-        background: #4F709C;
-        color: white;
-        padding: 15px 20px;
-    }
+{% if loans %}
+<div class="stack" style="gap: var(--space-4)">
+  {% for loan in loans %}
+  <div class="card">
+    <div class="card-body" style="display: flex; gap: var(--space-5); flex-wrap: wrap">
+      <img
+        src="{{ loan.book.get_image_url }}"
+        alt="{{ loan.book.title }}"
+        style="width: 96px; height: 128px; object-fit: cover; border-radius: var(--radius-md); flex-shrink: 0; background-color: var(--color-border-subtle)"
+      />
 
-    .book-info {
-        margin-bottom: 15px;
-    }
-
-    .book-info-label {
-        color: #4F709C;
-        font-weight: 600;
-        margin-bottom: 5px;
-    }
-
-    .book-info-value {
-        color: #213555;
-    }
-
-    .book-image {
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .book-image:hover {
-        transform: scale(1.02);
-    }
-
-    .status-badge {
-        display: inline-block;
-        padding: 8px 15px;
-        border-radius: 20px;
-        background: #FF7477;
-        color: white;
-        font-weight: 500;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 50px 20px;
-        background: #E9EFF8;
-        border-radius: 15px;
-        margin-top: 50px;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 20px;
-    }
-</style>
-
-{% if books %}
-    <div class="borrowed-books-header">
-        <h1 class="text-center">Your Borrowed Books</h1>
-    </div>
-
-    {% for book in books %}
-    <div class="container">
-        <div class="book-card">
-            <div class="card-header">
-                <h2 class="mb-0">{{book.title}} by {{book.author}}</h2>
-            </div>
-            
-            <div class="row p-4">
-                <div class="col-md-7">
-                    <div class="book-info">
-                        <div class="book-info-label">Description</div>
-                        <p class="book-info-value">{{book.description}}</p>
-                    </div>
-
-                    <div class="book-info">
-                        <div class="book-info-label">Genre</div>
-                        <p class="book-info-value">{{book.genre}}</p>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="book-info">
-                                <div class="book-info-label">Pages</div>
-                                <p class="book-info-value">{{book.pages}}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="book-info">
-                                <div class="book-info-label">Price</div>
-                                <p class="book-info-value">${{book.price}}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="book-info">
-                        <div class="book-info-label">Borrow Details</div>
-                        <p class="book-info-value">
-                            Borrowed on: {{book.borrow_date}}<br>
-                            Period: {{book.borrow_period}} Days<br>
-                            Return by: {{book.return_date}}
-                        </p>
-                    </div>
-
-                    <div class="action-buttons">
-                        <a href="{% url 'books.index' %}" class="btn btn-primary">Browse Books</a>
-                        <a href="{{book.get_return_to_shelf_url}}" class="btn btn-warning">Return Book</a>
-                    </div>
-
-                    <div class="mt-4">
-                        <span class="status-badge">Status: {{book.status}}</span>
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                    <img
-                        class="book-image img-fluid"
-                        src="{{book.get_image_url}}"
-                        alt="{{book.title}}"
-                        style="max-height: 450px; width: 100%; object-fit: contain;"
-                    />
-                </div>
-            </div>
+      <div style="flex: 1; min-width: 220px">
+        <div class="flex-between" style="align-items: flex-start">
+          <div>
+            <h3 style="margin-bottom: 2px"><a href="{{ loan.book.get_show_url }}">{{ loan.book.title }}</a></h3>
+            <p class="text-small mt-0">by {{ loan.book.author }}</p>
+          </div>
+          {% if loan.loan_status == "Overdue" %}
+          <span class="badge badge-danger">Overdue · {{ loan.days_overdue }}d</span>
+          {% else %}
+          <span class="badge badge-success">Active</span>
+          {% endif %}
         </div>
+
+        <div class="flex-between" style="margin-top: var(--space-4); align-items: flex-end; flex-wrap: wrap; gap: var(--space-3)">
+          <div class="text-small">
+            Borrowed {{ loan.borrowed_at }} &middot; Due {{ loan.due_at }}
+          </div>
+          <form
+            method="post"
+            action="{{ loan.book.get_return_to_shelf_url }}"
+            data-confirm="Returning this book will make it available for other members to borrow."
+            data-confirm-title="Return &ldquo;{{ loan.book.title }}&rdquo;?"
+            data-confirm-label="Return book"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary btn-sm">Return book</button>
+          </form>
+        </div>
+      </div>
     </div>
-    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
 
 {% else %}
-    <div class="empty-state">
-        <h1 class="mb-4">No Borrowed Books</h1>
-        <p class="mb-4">You haven't borrowed any books yet. Start exploring our collection!</p>
-        <a href="{% url 'books.index' %}" class="btn btn-primary">Browse Books</a>
-    </div>
+<div class="empty-state">
+  <span class="empty-state__icon" aria-hidden="true">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+  </span>
+  <h2>No borrowed books</h2>
+  <p>You haven't borrowed anything yet. Explore the catalog to find your next read.</p>
+  <a href="{% url 'books:index' %}" class="btn btn-primary">Browse books</a>
+</div>
 {% endif %}
-
 {% endblock %}

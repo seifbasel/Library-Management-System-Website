@@ -1,0 +1,171 @@
+/*
+ * Design tokens - the single source of truth for color, type, spacing,
+ * radius, shadow, and motion across the app. Components consume these
+ * custom properties; they should never hardcode a color or spacing value.
+ *
+ * Light values live on :root. Dark values are redefined twice so both an
+ * explicit user choice ([data-theme="dark"]) and the OS-level preference
+ * (prefers-color-scheme, when the user hasn't chosen) produce dark mode.
+ */
+
+:root {
+  /* Color */
+  --color-background: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+
+  --color-text-primary: #1b2136;
+  --color-text-secondary: #4b5468;
+  --color-text-muted: #8b93a7;
+
+  --color-border: #e3e6ef;
+  --color-border-subtle: #edeff5;
+
+  --color-primary: #3c4b9e;
+  --color-primary-hover: #31408a;
+  --color-primary-soft: #eef0fb;
+
+  --color-secondary: #0f766e;
+  --color-accent: #7c5cbf;
+
+  --color-success: #1f9d6e;
+  --color-success-soft: #e6f6ef;
+  --color-warning: #b9770e;
+  --color-warning-soft: #fbf0dd;
+  --color-danger: #d8425a;
+  --color-danger-soft: #fceaed;
+  --color-info: #2e7dd1;
+  --color-info-soft: #e8f2fc;
+
+  --gradient-brand: linear-gradient(135deg, #3c4b9e 0%, #6c57b0 55%, #12817a 100%);
+  --gradient-brand-subtle: radial-gradient(
+    120% 120% at 10% 0%,
+    rgba(60, 75, 158, 0.1),
+    rgba(124, 92, 191, 0.07) 45%,
+    rgba(18, 129, 122, 0.05) 80%
+  );
+
+  --shadow-sm: 0 1px 2px rgba(23, 27, 46, 0.06);
+  --shadow-md: 0 4px 12px rgba(23, 27, 46, 0.08);
+  --shadow-lg: 0 12px 32px rgba(23, 27, 46, 0.12);
+
+  /* Typography */
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --text-display: 700 2.5rem/1.15 var(--font-sans);
+  --text-page-title: 700 1.75rem/1.25 var(--font-sans);
+  --text-section-title: 600 1.25rem/1.35 var(--font-sans);
+  --text-card-title: 600 1rem/1.4 var(--font-sans);
+  --text-body: 400 0.9375rem/1.6 var(--font-sans);
+  --text-small: 400 0.8125rem/1.5 var(--font-sans);
+  --text-caption: 600 0.6875rem/1.4 var(--font-sans);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-background: #0b0e17;
+    --color-surface: #12162a;
+    --color-surface-elevated: #181d33;
+
+    --color-text-primary: #edeff7;
+    --color-text-secondary: #aab2c8;
+    --color-text-muted: #727c93;
+
+    --color-border: #262c42;
+    --color-border-subtle: #1c2236;
+
+    --color-primary: #8791e8;
+    --color-primary-hover: #9ba3ee;
+    --color-primary-soft: rgba(135, 145, 232, 0.16);
+
+    --color-secondary: #3fbfae;
+    --color-accent: #ab8fe0;
+
+    --color-success: #3ecb8e;
+    --color-success-soft: rgba(62, 203, 142, 0.14);
+    --color-warning: #e0a23d;
+    --color-warning-soft: rgba(224, 162, 61, 0.14);
+    --color-danger: #f0637a;
+    --color-danger-soft: rgba(240, 99, 122, 0.14);
+    --color-info: #5fa7e8;
+    --color-info-soft: rgba(95, 167, 232, 0.14);
+
+    --gradient-brand: linear-gradient(135deg, #8791e8 0%, #ab8fe0 55%, #3fbfae 100%);
+    --gradient-brand-subtle: radial-gradient(
+      120% 120% at 10% 0%,
+      rgba(135, 145, 232, 0.16),
+      rgba(171, 143, 224, 0.1) 45%,
+      rgba(63, 191, 174, 0.08) 80%
+    );
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-background: #0b0e17;
+  --color-surface: #12162a;
+  --color-surface-elevated: #181d33;
+
+  --color-text-primary: #edeff7;
+  --color-text-secondary: #aab2c8;
+  --color-text-muted: #727c93;
+
+  --color-border: #262c42;
+  --color-border-subtle: #1c2236;
+
+  --color-primary: #8791e8;
+  --color-primary-hover: #9ba3ee;
+  --color-primary-soft: rgba(135, 145, 232, 0.16);
+
+  --color-secondary: #3fbfae;
+  --color-accent: #ab8fe0;
+
+  --color-success: #3ecb8e;
+  --color-success-soft: rgba(62, 203, 142, 0.14);
+  --color-warning: #e0a23d;
+  --color-warning-soft: rgba(224, 162, 61, 0.14);
+  --color-danger: #f0637a;
+  --color-danger-soft: rgba(240, 99, 122, 0.14);
+  --color-info: #5fa7e8;
+  --color-info-soft: rgba(95, 167, 232, 0.14);
+
+  --gradient-brand: linear-gradient(135deg, #8791e8 0%, #ab8fe0 55%, #3fbfae 100%);
+  --gradient-brand-subtle: radial-gradient(
+    120% 120% at 10% 0%,
+    rgba(135, 145, 232, 0.16),
+    rgba(171, 143, 224, 0.1) 45%,
+    rgba(63, 191, 174, 0.08) 80%
+  );
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+}

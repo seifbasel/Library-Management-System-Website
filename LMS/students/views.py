@@ -1,30 +1,55 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import CreateView
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from students.forms import StudentCreationForm
-from students.models import Student
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db import transaction
+from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
+from django.views.generic import CreateView
+
+from books.models import Book
+from loans.models import Loan
+from students.forms import StudentCreationForm, StudentEditForm
+from students.models import Student
+
 
 def index(request):
-    return render(request, "students/index.html")
+    currently_borrowed = Loan.objects.filter(returned_at__isnull=True).values("book_id")
+
+    most_borrowed = (
+        Book.objects.annotate(loan_count=Count("loans")).filter(loan_count__gt=0).order_by("-loan_count")[:8]
+    )
+
+    context = {
+        "new_releases": Book.objects.exclude(image="").order_by("-created_at")[:8],
+        "most_borrowed": most_borrowed,
+        "total_books_count": Book.objects.count(),
+        "available_books_count": Book.objects.exclude(id__in=currently_borrowed).count(),
+    }
+    return render(request, "students/index.html", context=context)
+
 
 @login_required
 def profile(request):
-    try:
-        # Get student profile for the current user, create if doesn't exist
-        student, created = Student.objects.get_or_create(
-            user=request.user,
-            defaults={
-                'name': request.user.username,
-                'email': request.user.email
-            }
-        )
-        return render(request, "students/profile.html", context={'student': student})
-    except Exception as e:
-        messages.error(request, f"Error accessing profile: {str(e)}")
-        return redirect('student.index')
+    student, _created = Student.objects.get_or_create(
+        user=request.user,
+        defaults={
+            "name": request.user.username,
+            "email": request.user.email,
+        },
+    )
+
+    active_loans = Loan.objects.filter(borrower=request.user, returned_at__isnull=True)
+    context = {
+        "student": student,
+        "active_loans_count": active_loans.count(),
+        "overdue_count": active_loans.filter(due_at__lt=timezone.localdate()).count(),
+        "total_loans_count": Loan.objects.filter(borrower=request.user).count(),
+        "recent_loans": Loan.objects.filter(borrower=request.user).select_related("book")[:5],
+    }
+    return render(request, "students/profile.html", context=context)
+
 
 class StudentSignUp(CreateView):
     model = User
@@ -32,47 +57,39 @@ class StudentSignUp(CreateView):
     template_name = "students/signup.html"
 
     def get_success_url(self):
-        return reverse('student.login')
+        return reverse("students:login")
 
     def form_valid(self, form):
-        try:
+        with transaction.atomic():
             user = form.save()
-
-            # Create the associated student profile
-            student = Student.objects.create(
+            Student.objects.create(
                 user=user,
-                name=form.cleaned_data['username'],
-                phone_number=form.cleaned_data['phone_number'],
-                email=form.cleaned_data['email'],
-                birthdate=form.cleaned_data['birthdate']
+                name=form.cleaned_data["username"],
+                phone_number=form.cleaned_data["phone_number"],
+                email=form.cleaned_data["email"],
+                birthdate=form.cleaned_data["birthdate"],
             )
-            messages.success(self.request, "Account created successfully!")
-            return super().form_valid(form)
-        except Exception as e:
-            messages.error(self.request, f"Error creating account: {str(e)}")
-            return self.form_invalid(form)
+        self.object = user
+        messages.success(self.request, "Account created successfully!")
+        return redirect(self.get_success_url())
+
 
 @login_required
 def edit(request, id):
     student = get_object_or_404(Student, id=id, user=request.user)
 
     if request.method == "POST":
-        try:
-            student.name = request.POST['name']
-            student.phone_number = request.POST['phone_number']
-            student.email = request.POST['email']
-            student.birthdate = request.POST['birthdate']
-            student.save()
-
-            # Update the associated user
-            user = request.user
-            user.username = student.name
-            user.email = student.email
-            user.save()
-
+        form = StudentEditForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            # Keep the login email in sync with the profile email; the
+            # username is intentionally left untouched - it's the login
+            # identifier, not an editable display name.
+            request.user.email = form.cleaned_data["email"]
+            request.user.save(update_fields=["email"])
             messages.success(request, "Profile updated successfully!")
-            return redirect("student.profile")
-        except Exception as e:
-            messages.error(request, f"Error updating profile: {str(e)}")
+            return redirect("students:profile")
+    else:
+        form = StudentEditForm(instance=student)
 
-    return render(request, "students/edit.html", context={'student': student})
+    return render(request, "students/edit.html", context={"student": student, "form": form})

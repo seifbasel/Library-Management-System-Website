@@ -1,16 +1,19 @@
 {% extends 'students/layouts/base.html' %}
-{% load static %}
+{% block title %}Logged out · LMS Library{% endblock %}
+{% block page_width %}--narrow{% endblock %}
 
-{% block title %}Logged Out{% endblock %}
-
-{% block 'content' %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <h1 class="mb-4">You have been logged out successfully.</h1>
-            <p>Return to <a href="{% url 'student.index' %}">Home</a> or 
-               <a href="{% url 'student.login' %}">Login again</a></p>
-        </div>
+{% block content %}
+<div class="card" style="max-width: 440px; margin: var(--space-16) auto; text-align: center">
+  <div class="card-body">
+    <span class="empty-state__icon" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </span>
+    <h1>You've been logged out</h1>
+    <p>Thanks for visiting the library. See you again soon.</p>
+    <div style="display: flex; gap: var(--space-3); justify-content: center">
+      <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+      <a href="{% url 'students:login' %}" class="btn btn-primary">Login again</a>
     </div>
+  </div>
 </div>
 {% endblock %}

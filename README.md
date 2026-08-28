@@ -2,105 +2,77 @@
 
 ## Project Overview
 
-This is a web-based library management system built with Django, featuring separate modules for administrators and students. The system allows for efficient management of books, student accounts, and borrowing processes.
+This is a web-based library management system built with Django. It lets students browse a book catalog, borrow and return books, and manage their profile, while librarians manage the catalog and view loan activity through Django's admin site.
 
 ## Features
 
-### Admin Module
+### Admin (Django Admin, themed with Jazzmin)
 
-- **Admin Dashboard:**
-  - View Borrowed books
-  - View All Books
-  - View All Users
-  - Track book status and availability
+- View, add, edit, and delete books, genres, statuses, and student profiles
+- View all loans (current and historical) with borrower, dates, and status
+- Manage user accounts and permissions via Django's built-in admin
 
-- **Book Management:**
-  - Add new books with details (title, author, genre, etc.)
-  - Update existing book information
-  - Delete books from the system
-  - Upload book cover images
-
-- **Student Management:**
-  - Search students by their student ID
-  - View student details and borrowing history
-  - Monitor student activities
-
-- **Password Change:**
-  - Admin can change their own password
-  - Secure authentication system
-
-- **Authorization:**
-  - Role-based access control
-  - Only admin has the authority to perform administrative tasks
+There is no separate custom-built admin dashboard app - all administrative work happens through Django's admin site at `/admin/`.
 
 ### Student Module
 
-- **User Registration:**
-  - Students can create their accounts
-  - Email verification system
-  - Secure password management
+- **Registration & Authentication**
+  - Self-service signup with phone number, birthdate, and email validation
+  - Login / logout
+  - Password change and password reset (emailed link)
 
-- **Browse Books:**
-  - View all available books
-  - Search books by title, author, or genre
-  - View detailed book information
-  - See book availability status
+- **Browse Books**
+  - View all currently available books
+  - View detailed information for any book
 
-- **Borrow Books:**
-  - Request to borrow available books
-  - Set borrowing duration
-  - Receive confirmation notifications
+- **Borrow & Return**
+  - Borrow an available book for a chosen number of days (1-30)
+  - View your currently borrowed books, with due dates and overdue status
+  - Return a borrowed book to the shelf
 
-- **User Dashboard:**
-  - Personalized student dashboard
-  - View currently borrowed books
-  - Track return dates
-  - Return books to shelf functionality
-  - Borrowing history
+- **Profile**
+  - View your profile
+  - Edit your name, phone number, email, and birthdate
 
-- **Profile Management:**
-  - Update personal information
-  - Change password
-  - View account status
+## Known Limitations
 
-- **Borrowed Book Details:**
-  - View detailed borrowing information
-  - Check return deadlines
-  - Extension requests (if implemented)
+- No search or filtering yet (by title, author, genre, etc.) - the book list currently shows everything available.
+- No fines or reservations system yet. Loan records track due dates and overdue status, but nothing bills a fine or lets a student reserve a book that's currently out.
+- No staff-facing dashboard page (stats, recent activity) beyond Django admin.
 
 ## Technologies Used
 
-- **Backend:** Django 4.2.4
-- **Database:** PostgreSQL
-- **Frontend:** HTML, CSS, Bootstrap
-- **Authentication:** Django Authentication System
-- **Additional:** Jazzmin (Admin Interface)
+- **Backend:** Django 5.0
+- **Database:** SQLite by default (zero setup for local development); PostgreSQL in production via `DATABASE_URL`
+- **Frontend:** HTML, CSS, Bootstrap 5
+- **Authentication:** Django's built-in authentication system
+- **Admin theme:** django-jazzmin
+- **Static files:** WhiteNoise
 
 ## Installation Guide
 
 ### Prerequisites
 
-1. Python (3.8 or higher)
-2. PostgreSQL
-3. pip (Python package manager)
+1. Python 3.10+
+2. pip (Python package manager)
 
 ### Installation Steps
 
 1. **Clone the Repository**
    ```bash
    git clone [repository-url]
-   cd library-management-system
+   cd Library-Management-System-Website/LMS
    ```
 
-2. **Create and Activate Virtual Environment**
+2. **Create and Activate a Virtual Environment**
    ```bash
    # Windows
-   python -m venv venv
-   venv\Scripts\activate
+   python -m venv .venv
+   .venv\Scripts\activate
 
    # Linux/Mac
-   python3 -m venv venv
-   source venv/bin/activate
+   python3 -m venv .venv
+   source .venv/bin/activate
    ```
 
 3. **Install Dependencies**
@@ -108,73 +80,66 @@ This is a web-based library management system built with Django, featuring separ
    pip install -r requirements.txt
    ```
 
-4. **Configure PostgreSQL**
-   - Create a new PostgreSQL database
-   - Update database settings in `settings.py`
-
-5. **Configure Environment Variables**
-   Create a `.env` file in the project root:
-   ```
-   DEBUG=True
-   SECRET_KEY=your-secret-key
-   DB_NAME=your-db-name
-   DB_USER=your-db-user
-   DB_PASSWORD=your-db-password
-   DB_HOST=localhost
-   DB_PORT=5432
-   ```
-
-6. **Run Migrations**
+4. **Configure Environment Variables**
+   Copy `.env.example` to `.env` and adjust as needed. With no `.env` at all, the
+   project still runs out of the box using a local SQLite database:
    ```bash
-   python manage.py makemigrations
+   cp .env.example .env
+   ```
+
+5. **Run Migrations**
+   ```bash
    python manage.py migrate
    ```
 
-7. **Create Superuser**
+6. **Create a Superuser**
    ```bash
    python manage.py createsuperuser
    ```
 
-8. **Create Required Folders**
-   ```bash
-   mkdir media
-   mkdir media/books/images
-   ```
-
-9. **Run the Development Server**
+7. **Run the Development Server**
    ```bash
    python manage.py runserver
    ```
 
-10. **Access the Application**
-    - Main site: http://127.0.0.1:8000/
-    - Admin panel: http://127.0.0.1:8000/admin/
+8. **Access the Application**
+   - Main site: http://127.0.0.1:8000/
+   - Admin panel: http://127.0.0.1:8000/admin/
+
+To use PostgreSQL instead of SQLite, set `DATABASE_URL` in `.env` (see the
+commented example in `.env.example`) before running migrations.
 
 ## Usage
 
 ### Admin Access
-1. Login to admin panel using superuser credentials
-2. Manage books, users, and borrowing records
-3. Monitor system activities
+1. Log in to the admin panel using your superuser credentials
+2. Manage books, genres, statuses, students, and loans
+3. Review current and past loan activity
 
 ### Student Access
 1. Register a new account
-2. Login with credentials
+2. Log in with your credentials
 3. Browse and borrow books
-4. Manage profile and borrowed books
+4. View and return your borrowed books, and manage your profile
+
+## Running Tests
+
+```bash
+python manage.py test
+```
 
 ## Project Structure
 ```
-library_management/
-├── books/              # Book management app
-├── students/           # Student management app
-├── genre/              # Genre management app
-├── status/            # Book status management
-├── media/             # Media files storage
-│   └── books/images/  # Book cover images
-├── static/            # Static files
-├── templates/         # HTML templates
-└── LMS/               # Main project directory
+LMS/
+├── books/              # Book catalog, borrow/return service layer
+├── loans/              # Loan history (borrow records, overdue tracking)
+├── students/           # Student accounts, auth, profile
+├── genre/              # Genre lookup
+├── status/             # Book status lookup
+├── media/              # Uploaded book cover images (not committed to git)
+├── static/             # Project-level static assets
+├── templates/          # Shared templates (includes, error pages)
+└── LMS/                # Django project settings, root urlconf
 ```
 
 ## Contributing
@@ -193,5 +158,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Django Documentation
 - Bootstrap Documentation
-- PostgreSQL Documentation
 - Jazzmin Theme Contributors

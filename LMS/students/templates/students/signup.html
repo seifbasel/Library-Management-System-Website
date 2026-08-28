@@ -1,80 +1,76 @@
 {% extends 'students/layouts/base.html' %}
 {% load static %}
+{% block title %}Sign up · LMS Library{% endblock %}
 
-{% block title %}Signup{% endblock %}
+{% block content %}
+<div class="auth-shell">
+  <div class="auth-shell__visual">
+    <span class="auth-shell__eyebrow">LMS Library</span>
+    <h1 class="auth-shell__title">Join the library.</h1>
+    <p class="auth-shell__lede">Create an account to borrow books, track due dates, and manage your loans in one place.</p>
+  </div>
 
-{% block 'content' %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 class="form-title text-center mb-4">Sign Up</h1>
-            <form method="post" enctype="multipart/form-data" class="p-4 border rounded">
-                {% csrf_token %}
-                <div class="form-group mb-3">
-                    {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label">{{ field.label }}</label>
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="text-danger">
-                                    {{ field.errors }}
-                                </div>
-                            {% endif %}
-                            {% if field.help_text %}
-                                <small class="form-text text-muted">{{ field.help_text }}</small>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                </div>
-                <div class="text-center mt-3">
-                    <p>Already have an account? <a href="{% url 'student.login' %}">Login</a></p>
-                </div>
-            </form>
+  <div class="auth-shell__form">
+    <div class="auth-card" style="max-width: 460px">
+      <h1>Create your account</h1>
+      <p>It only takes a minute.</p>
+
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+      </div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="field">
+          <label class="field-label" for="{{ form.username.id_for_label }}">Username <span class="required">*</span></label>
+          {{ form.username }}
+          {% if form.username.help_text %}<p class="field-help">{{ form.username.help_text|safe }}</p>{% endif %}
+          {% for error in form.username.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
         </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label class="field-label" for="{{ form.password1.id_for_label }}">Password <span class="required">*</span></label>
+            {{ form.password1 }}
+            {% for error in form.password1.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="field">
+            <label class="field-label" for="{{ form.password2.id_for_label }}">Confirm password <span class="required">*</span></label>
+            {{ form.password2 }}
+            {% for error in form.password2.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+          </div>
+        </div>
+        {% if form.password1.help_text %}<p class="field-help mt-0" style="margin-top: -8px; margin-bottom: var(--space-4)">{{ form.password1.help_text|safe }}</p>{% endif %}
+
+        <div class="field">
+          <label class="field-label" for="{{ form.email.id_for_label }}">Email <span class="required">*</span></label>
+          {{ form.email }}
+          {% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label class="field-label" for="{{ form.phone_number.id_for_label }}">Phone number <span class="required">*</span></label>
+            {{ form.phone_number }}
+            {% for error in form.phone_number.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="field">
+            <label class="field-label" for="{{ form.birthdate.id_for_label }}">Birthdate <span class="required">*</span></label>
+            {{ form.birthdate }}
+            {% for error in form.birthdate.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create account</button>
+      </form>
+
+      <p class="text-small" style="text-align: center; margin-top: var(--space-5)">
+        Already have an account? <a href="{% url 'students:login' %}">Login</a>
+      </p>
     </div>
+  </div>
 </div>
-
-<style>
-    form input {
-        width: 100% !important;
-        padding: 8px !important;
-        margin-bottom: 15px !important;
-        border: 1px solid #ced4da !important;
-        border-radius: 4px !important;
-    }
-    
-    form {
-        background-color: #e9eff8;
-        padding: 20px;
-        border-radius: 10px;
-        color: black;
-        width: 100%;
-    }
-
-    .form-label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .help-text {
-        font-size: 0.875em;
-        color: #6c757d;
-    }
-
-    select {
-        width: 100% !important;
-        padding: 8px !important;
-        margin-bottom: 15px !important;
-        border: 1px solid #ced4da !important;
-        border-radius: 4px !important;
-    }
-
-    input[type="date"] {
-        width: 100% !important;
-        padding: 7px !important;
-    }
-</style>
 {% endblock %}

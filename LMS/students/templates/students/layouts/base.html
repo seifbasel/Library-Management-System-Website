@@ -1,164 +1,81 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %} base {% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'students/bootstrap/css/bootstrap.css' %}" />
-    <link rel="stylesheet" href="{% static 'students/css/style.css' %}" />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@800&family=Tilt+Prism&display=swap");
+    <title>{% block title %}LMS Library{% endblock %}</title>
 
-      /* Navigation Styles */
-      #main_nav {
-        background-color:rgb(41, 69, 105);
-      }
+    <!-- Applied before any CSS loads or paint happens, so the correct
+         theme is active immediately - no flash of the wrong theme. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("lms-theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
 
-      .navbar-brand {
-    border-radius: 16px;
-    padding: 12px 28px;
-    font-family: 'Tilt Prism', sans-serif;
-    font-weight: 400;
-    font-size: 1.7rem;
-    color: #F8FAFC !important;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.6s ease;
-    z-index: 1;
-  }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  .navbar-brand::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s ease;
-    z-index: -1;
-  }
-
-  .navbar-brand:hover::before {
-    left: 100%;
-  }
-
-  .navbar-brand:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-    background: linear-gradient(135deg, rgb(15, 48, 125) 0%, #3B82F6 50%, rgb(47, 81, 165) 100%);
-  }
-
-      .nav-link {
-        color: #FEFFFE !important;
-        padding: 8px 16px !important;
-        margin: 0 5px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        font-weight: 500;
-      }
-
-      .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      .user-badge {
-        background-color: #E9EFF8 !important;
-        color: #213555 !important;
-        padding: 8px 16px;
-        border-radius: 10px;
-        font-weight: 600;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-
-      .logout-btn {
-        background: none;
-        border: none;
-        color: #FEFFFE;
-        font-size: 20px;
-        padding: 8px 16px !important;
-        transition: all 0.3s ease;
-        border-radius: 8px;
-      }
-
-      .logout-btn:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      .admin-link {
-        background-color: #E9EFF8 !important;
-        color: #213555 !important;
-        font-weight: 600;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-
-      @media (max-width: 991.98px) {
-        .nav-link {
-          margin: 5px 0;
-        }
-        .navbar-toggler {
-          background-color: #E9EFF8;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'students/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'students/css/tokens.css' %}" />
+    <link rel="stylesheet" href="{% static 'students/css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'students/css/layout.css' %}" />
+    <link rel="stylesheet" href="{% static 'students/css/components.css' %}" />
+    {% block extra_head %}{% endblock %}
   </head>
   <body>
-    <header>
-      <div>
-        <nav class="navbar navbar-expand-lg" id="main_nav">
-          <div class="container-fluid">
-            <a class="navbar-brand">LMS</a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNavAltMarkup"
-              aria-controls="navbarNavAltMarkup"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav mx-auto">
-                {% if user.id %}
-                <a class="nav-link user-badge">{{user}}</a>
-                {% endif %}
-                <a class="nav-link ms-3" href="{% url 'student.index' %}">Home</a>
-                <a class="nav-link ms-3" href="{% url 'books.index' %}">Books</a>
-                {% if not user.id %}
-                <a class="nav-link ms-3" href="{% url 'student.login' %}">Login</a>
-                <a class="nav-link ms-3" href="{% url 'student.signup' %}">Sign up</a>
-                {% else %}
-                <a class="nav-link ms-3" href="{% url 'student.profile' %}">Profile</a>
-                <form method="post" action="{% url 'student.logout' %}" style="background:none; padding:0; margin:0; width:auto; display:inline;">
-                  {% csrf_token %}
-                  <button type="submit" class="logout-btn">Logout</button>
-                </form>
-                {% endif %}
-              </div>
-              
-              {%if not user.id%}
-              <div class="navbar-nav">
-                <a class="nav-link admin-link" href="{% url 'admin:index' %}">
-                  Admin Login
-                </a>
-              </div>
-              {%endif%}
-            </div>
-          </div>
-        </nav>
+    {% include "includes/_navbar.html" %}
+
+    <main>
+      <div class="app-page{% block page_width %}{% endblock %}">
+        {% include "includes/_messages.html" %}
+        {% block content %}{% endblock %}
       </div>
-    </header>
+    </main>
 
-    <div class="content">
-      <div style="min-height: 500px">{% block 'content'%} {% endblock %}</div>
+    <footer class="app-footer">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-3)">
+        <small>&copy; {% now "Y" %} {{ LIBRARY_INFO.name }}</small>
+        {% if SOCIAL_LINKS %}
+        <div class="social-links">
+          {% for link in SOCIAL_LINKS %}
+          <a href="{{ link.url }}" aria-label="{{ link.label }}" target="_blank" rel="noopener noreferrer" style="width: 32px; height: 32px">
+            {% if link.icon == "instagram" %}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            {% elif link.icon == "twitter" %}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg>
+            {% else %}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            {% endif %}
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </footer>
+
+    <!-- Shared confirmation modal - any <form data-confirm="..."> triggers it (see main.js) -->
+    <div class="modal-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+      <div class="modal">
+        <h2 id="confirm-modal-title" data-confirm-title>Are you sure?</h2>
+        <p data-confirm-body>This action cannot be undone.</p>
+        <div class="modal__actions">
+          <button type="button" class="btn btn-secondary" data-confirm-cancel>Cancel</button>
+          <button type="button" class="btn btn-danger" data-confirm-accept>Confirm</button>
+        </div>
+      </div>
     </div>
 
-    <script src="{% static 'students/bootstrap/js/bootstrap.js'%}"></script>      
-    </div>
+    <script src="{% static 'students/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'students/js/theme.js' %}"></script>
+    <script src="{% static 'students/js/main.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
   </body>
 </html>

@@ -1,146 +1,123 @@
 {% extends 'students/layouts/base.html' %}
 {% load static %}
-{% block title %}Books{% endblock %}
+{% block title %}Books · LMS Library{% endblock %}
 
-{% block 'content' %}
-<style>
-    .landing {
-        background: linear-gradient(135deg, #4F709C 0%, #213555 100%);
-        padding: 20px 0;
-        text-align: center;
-        color: white;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .landing h2 {
-        font-size: 3.5rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
-
-    .landing h4 {
-        font-size: 1.5rem;
-        font-weight: 400;
-        color: rgba(255,255,255,0.9);
-    }
-
-    .parent {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px;
-        padding: 20px 50px;
-    }
-
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: none;
-        border-radius: 15px;
-        overflow: hidden;
-        background: white;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-
-    .card-img-top {
-        height: 400px;
-        object-fit: cover;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .card-body {
-        padding: 20px;
-    }
-
-    .card-title {
-        color: #213555;
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-    }
-
-    .genre-badge {
-        background-color: #E9EFF8;
-        color: #4F709C;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        display: inline-block;
-        margin-bottom: 15px;
-    }
-
-    .price {
-        color: #FF7477;
-        font-size: 1.8rem;
-        font-weight: 600;
-    }
-
-    .btn-primary {
-        background-color: #4F709C;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: #213555;
-        transform: translateY(-2px);
-    }
-
-    .card-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px;
-        background: none;
-        border-top: none;
-    }
-
-    @media (max-width: 768px) {
-        .landing h2 {
-            font-size: 2.5rem;
-        }
-        
-        .parent {
-            padding: 20px;
-        }
-    }
-</style>
-
-<div class="landing">
-    <div class="container">
-        <h2>Books Collection</h2>
-        <p>Discover our carefully curated selection of books across all genres</p>
-    </div>
+{% block content %}
+<div class="flex-between" style="margin-bottom: var(--space-6)">
+  <div>
+    <h1>Book Catalog</h1>
+    <p class="mt-0">Browse the full collection and see what's available to borrow.</p>
+  </div>
 </div>
 
-<div class="parent">
-    {% for book in books %}
-    <div class="card">
-        <img
-            class="card-img-top"
-            src="{{book.get_image_url}}"
-            alt="{{book.title}}"
-        />
-        <div class="card-body">
-            <h5 class="card-title">{{book.title}}</h5>
-            <p class="text-muted mb-2">by {{book.author}}</p>
-            <div class="genre-badge">
-                {{book.genre}}
-            </div>
-            <div class="card-footer">
-                <a href="{{book.get_show_url}}" class="btn btn-primary">
-                    View Details
-                </a>
-                <span class="price">${{book.price}}</span>
-            </div>
-        </div>
-    </div>
+<form method="get" class="filter-bar" role="search">
+  <div class="search-field">
+    <span class="search-field__icon icon" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </span>
+    <label for="book-search" class="visually-hidden">Search by title or author</label>
+    <input
+      type="search"
+      id="book-search"
+      name="q"
+      class="field-input"
+      placeholder="Search by title or author…"
+      value="{{ query }}"
+    />
+  </div>
+
+  <label for="genre-filter" class="visually-hidden">Filter by genre</label>
+  <select id="genre-filter" name="genre" class="field-input filter-select" onchange="this.form.submit()">
+    <option value="">All genres</option>
+    {% for genre in genres %}
+    <option value="{{ genre.id }}" {% if selected_genre == genre.id|stringformat:"s" %}selected{% endif %}>{{ genre.name }}</option>
     {% endfor %}
+  </select>
+
+  <label for="availability-filter" class="visually-hidden">Filter by availability</label>
+  <select id="availability-filter" name="availability" class="field-input filter-select" onchange="this.form.submit()">
+    <option value="">All books</option>
+    <option value="available" {% if selected_availability == "available" %}selected{% endif %}>Available only</option>
+  </select>
+
+  <button type="submit" class="btn btn-secondary">Apply</button>
+  {% if query or selected_genre or selected_availability %}
+  <a href="{% url 'books:index' %}" class="btn btn-ghost">Clear filters</a>
+  {% endif %}
+</form>
+
+{% if books %}
+<div class="kpi-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-bottom: var(--space-8)">
+  {% for book in books %}
+  <div class="card card-interactive">
+    <a href="{{ book.get_show_url }}" style="display: block; color: inherit">
+      <img
+        src="{{ book.get_image_url }}"
+        alt="{{ book.title }}"
+        style="width: 100%; height: 220px; object-fit: cover; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background-color: var(--color-border-subtle)"
+      />
+      <div class="card-body">
+        <div class="flex-between" style="align-items: flex-start; margin-bottom: var(--space-2)">
+          <h3 style="margin: 0">{{ book.title }}</h3>
+          {% if book.is_available %}
+          <span class="badge badge-success">Available</span>
+          {% else %}
+          <span class="badge badge-neutral">Borrowed</span>
+          {% endif %}
+        </div>
+        <p class="text-small mt-0" style="margin-bottom: var(--space-3)">by {{ book.author }}</p>
+        <div class="flex-between">
+          {% if book.genre %}<span class="badge badge-info">{{ book.genre }}</span>{% else %}<span></span>{% endif %}
+          <strong style="color: var(--color-text-primary)">${{ book.price }}</strong>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
 </div>
+
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="pagination" aria-label="Book list pages">
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&genre={{ selected_genre }}&availability={{ selected_availability }}" aria-label="Previous page">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </a>
+  {% else %}
+  <span class="is-disabled"><span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </span></span>
+  {% endif %}
+
+  {% for num in page_obj.paginator.page_range %}
+  <span class="{% if page_obj.number == num %}is-current{% endif %}">
+    {% if page_obj.number == num %}
+    <span>{{ num }}</span>
+    {% else %}
+    <a href="?page={{ num }}&q={{ query }}&genre={{ selected_genre }}&availability={{ selected_availability }}">{{ num }}</a>
+    {% endif %}
+  </span>
+  {% endfor %}
+
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&genre={{ selected_genre }}&availability={{ selected_availability }}" aria-label="Next page">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  {% else %}
+  <span class="is-disabled"><span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </span></span>
+  {% endif %}
+</nav>
+{% endif %}
+
+{% else %}
+<div class="empty-state">
+  <span class="empty-state__icon" aria-hidden="true">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+  </span>
+  <h2>No books found</h2>
+  <p>Try adjusting your search or filters.</p>
+  <a href="{% url 'books:index' %}" class="btn btn-secondary">Clear filters</a>
+</div>
+{% endif %}
 {% endblock %}
