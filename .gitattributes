@@ -1,0 +1,8 @@
+# Force LF line endings for files that run inside Linux containers or as
+# shell scripts, regardless of core.autocrlf on a contributor's machine.
+# A CRLF-mangled shebang line breaks the Docker entrypoint with a cryptic
+# "no such file or directory" error - this is a real risk on Windows dev
+# machines with core.autocrlf=true (the default the docs recommend).
+*.sh text eol=lf
+Dockerfile text eol=lf
+docker-entrypoint.sh text eol=lf

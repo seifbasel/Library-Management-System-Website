@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Count
@@ -10,6 +9,7 @@ from django.views.generic import CreateView
 
 from books.models import Book
 from loans.models import Loan
+from organization.access import member_portal_view
 from students.forms import StudentCreationForm, StudentEditForm
 from students.models import Student
 
@@ -30,7 +30,7 @@ def index(request):
     return render(request, "students/index.html", context=context)
 
 
-@login_required
+@member_portal_view
 def profile(request):
     student, _created = Student.objects.get_or_create(
         user=request.user,
@@ -74,7 +74,7 @@ class StudentSignUp(CreateView):
         return redirect(self.get_success_url())
 
 
-@login_required
+@member_portal_view
 def edit(request, id):
     student = get_object_or_404(Student, id=id, user=request.user)
 

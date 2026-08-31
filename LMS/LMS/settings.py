@@ -33,6 +33,10 @@ DEBUG = config("DEBUG", default=True, cast=bool)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1", cast=Csv())
 
+# Environment variable (not a LibrarySettings field) so it still works if
+# the database itself is unavailable, e.g. mid-migration during an upgrade.
+MAINTENANCE_MODE = config("MAINTENANCE_MODE", default=False, cast=bool)
+
 
 # Application definition
 
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "organization.apps.OrganizationConfig",
     "students.apps.StudentsConfig",
     "books.apps.BooksConfig",
     "genre.apps.GenreConfig",
@@ -54,6 +59,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "organization.middleware.MaintenanceModeMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -188,18 +194,8 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 60 * 60 * 24 * 7  # 1 week; raise once confirmed working
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-# Contact/social content shown on the homepage and footer (students.context_processors).
-# Static site configuration, not application data - update these to your real details.
-LIBRARY_INFO = {
-    "name": config("LIBRARY_NAME", default="LMS Library"),
-    "address": config("LIBRARY_ADDRESS", default="123 Main Street, Springfield"),
-    "hours": config("LIBRARY_HOURS", default="Mon-Fri 9am-8pm, Sat-Sun 10am-5pm"),
-    "phone": config("LIBRARY_PHONE", default="(555) 010-0110"),
-    "email": config("LIBRARY_EMAIL", default="hello@lms-library.example"),
-}
-
-SOCIAL_LINKS = [
-    {"label": "Instagram", "url": config("SOCIAL_INSTAGRAM", default="#"), "icon": "instagram"},
-    {"label": "X (Twitter)", "url": config("SOCIAL_TWITTER", default="#"), "icon": "twitter"},
-    {"label": "Facebook", "url": config("SOCIAL_FACEBOOK", default="#"), "icon": "facebook"},
-]
+# Organization identity, branding, loan policy, and social links are no
+# longer static settings - they live in the admin-editable LibrarySettings
+# singleton (organization app) so a customer's own staff can change them
+# without a redeploy. See students/context_processors.py and
+# organization/views.py::branding_css.

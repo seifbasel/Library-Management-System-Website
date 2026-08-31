@@ -4,3 +4,7 @@ class BookNotAvailableError(Exception):
 
 class LoanAlreadyReturnedError(Exception):
     """Raised when trying to return a loan that has already been returned."""
+
+
+class TooManyActiveLoansError(Exception):
+    """Raised when a borrower is already at LibrarySettings.max_books_per_member."""

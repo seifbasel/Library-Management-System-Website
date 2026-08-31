@@ -5,16 +5,18 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from books.exceptions import BookNotAvailableError, LoanAlreadyReturnedError
+from books.exceptions import BookNotAvailableError, LoanAlreadyReturnedError, TooManyActiveLoansError
 from books.forms import BorrowForm
 from books.models import Book
 from books.services import borrow_book, return_book
 from genre.models import Genre
 from loans.models import Loan
+from organization.access import catalog_view, member_portal_view
 
 BOOKS_PER_PAGE = 12
 
 
+@catalog_view
 def index(request):
     query = request.GET.get("q", "").strip()
     genre_id = request.GET.get("genre", "")
@@ -48,6 +50,7 @@ def index(request):
     return render(request, "books/index.html", context=context)
 
 
+@catalog_view
 def show(request, id):
     book = get_object_or_404(Book.objects.select_related("genre", "status"), id=id)
     return render(request, "books/show.html", context={"book": book})
@@ -63,6 +66,8 @@ def borrow(request, id):
                 borrow_book(book=book, borrower=request.user, period_days=form.cleaned_data["borrow_period"])
             except BookNotAvailableError as exc:
                 messages.error(request, str(exc))
+            except TooManyActiveLoansError as exc:
+                messages.error(request, str(exc))
             else:
                 messages.success(request, f"Successfully borrowed {book.title}")
                 return redirect("books:borrowed")
@@ -70,7 +75,7 @@ def borrow(request, id):
     return render(request, "books/borrow.html", context={"book": book, "form": BorrowForm()})
 
 
-@login_required
+@member_portal_view
 def show_borrowed(request):
     loans = Loan.objects.filter(borrower=request.user, returned_at__isnull=True).select_related(
         "book", "book__genre", "book__status"
@@ -83,9 +88,16 @@ def show_borrowed(request):
 def return_to_shelf(request, id):
     loan = get_object_or_404(Loan, book_id=id, borrower=request.user, returned_at__isnull=True)
     try:
-        return_book(loan=loan)
+        returned_loan = return_book(loan=loan)
     except LoanAlreadyReturnedError as exc:
         messages.error(request, str(exc))
     else:
-        messages.success(request, f"Successfully returned {loan.book.title}")
+        if hasattr(returned_loan, "fine"):
+            messages.warning(
+                request,
+                f"Returned {loan.book.title} - a ${returned_loan.fine.amount} late fee has been applied "
+                f"({returned_loan.fine.days_overdue} day(s) overdue).",
+            )
+        else:
+            messages.success(request, f"Successfully returned {loan.book.title}")
     return redirect("books:borrowed")

@@ -66,3 +66,25 @@ class Loan(models.Model):
         if self.is_overdue:
             return "Overdue"
         return "Active"
+
+
+class Fine(models.Model):
+    """A fine assessed against a loan returned late.
+
+    Only ever created by books/services.py::return_book, and only when the
+    deployment has fines enabled (LibrarySettings.enable_fines) - see
+    organization/features.py. One fine per loan: a loan is only ever
+    returned once, so there is nothing to accumulate.
+    """
+
+    loan = models.OneToOneField(Loan, on_delete=models.PROTECT, related_name="fine")
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    days_overdue = models.PositiveIntegerField()
+    paid = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"${self.amount} fine for {self.loan}"

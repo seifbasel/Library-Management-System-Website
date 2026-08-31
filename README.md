@@ -1,5 +1,10 @@
 # Online Library Management System
 
+> **Picking this project up (human or AI agent)?** Read
+> [`LMS/HANDOVER.md`](LMS/HANDOVER.md) first — a complete technical
+> reference: every app/model, all settings and environment variables,
+> the frontend design system, testing, deployment, and known gaps.
+
 ## Project Overview
 
 This is a web-based library management system built with Django. It lets students browse a book catalog, borrow and return books, and manage their profile, while librarians manage the catalog and view loan activity through Django's admin site.
@@ -22,7 +27,7 @@ There is no separate custom-built admin dashboard app - all administrative work 
   - Password change and password reset (emailed link)
 
 - **Browse Books**
-  - View all currently available books
+  - Search by title/author, filter by genre and availability, paginated
   - View detailed information for any book
 
 - **Borrow & Return**
@@ -31,14 +36,18 @@ There is no separate custom-built admin dashboard app - all administrative work 
   - Return a borrowed book to the shelf
 
 - **Profile**
-  - View your profile
+  - A personal dashboard: active/overdue loan counts, recent activity
   - Edit your name, phone number, email, and birthdate
+
+Per-deployment organization name, branding colors, loan policy, and fines
+are configurable in Django admin under **Library settings** - no code
+changes or redeploy needed. See `LMS/HANDOVER.md` for the full picture.
 
 ## Known Limitations
 
-- No search or filtering yet (by title, author, genre, etc.) - the book list currently shows everything available.
-- No fines or reservations system yet. Loan records track due dates and overdue status, but nothing bills a fine or lets a student reserve a book that's currently out.
-- No staff-facing dashboard page (stats, recent activity) beyond Django admin.
+- No reservations system - a student can't reserve a book that's currently out.
+- No staff-facing dashboard page (stats, recent activity) beyond Django admin and the student-facing profile page.
+- No i18n/RTL, barcode scanning, multi-branch inventory, or custom fields yet - see `LMS/HANDOVER.md` §9 for the full list and reasoning.
 
 ## Technologies Used
 

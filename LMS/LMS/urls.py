@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 
+from organization.views import branding_css, health_check
 from students.forms import StyledPasswordChangeForm, StyledPasswordResetForm, StyledSetPasswordForm
 from students.views import index
 
@@ -15,6 +16,8 @@ from students.views import index
 urlpatterns = [
     path("", index, name="home"),
     path("admin/", admin.site.urls),
+    path("healthz/", health_check, name="health_check"),
+    path("branding.css", branding_css, name="branding_css"),
     path("students/", include("students.urls")),
     path("books/", include("books.urls")),
     path("genre/", include("genre.urls")),
