@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Exists, OuterRef
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -15,17 +15,17 @@ from students.models import Student
 
 
 def index(request):
-    currently_borrowed = Loan.objects.filter(returned_at__isnull=True).values("book_id")
-
-    most_borrowed = (
-        Book.objects.annotate(loan_count=Count("loans")).filter(loan_count__gt=0).order_by("-loan_count")[:8]
+    active_loan = Loan.objects.filter(book_id=OuterRef("pk"), returned_at__isnull=True)
+    catalog = Book.objects.select_related("genre").annotate(
+        loan_count=Count("loans"),
+        is_on_loan=Exists(active_loan),
     )
 
     context = {
-        "new_releases": Book.objects.exclude(image="").order_by("-created_at")[:8],
-        "most_borrowed": most_borrowed,
+        "new_releases": catalog.exclude(image="").order_by("-created_at")[:5],
+        "most_borrowed": catalog.order_by("-loan_count", "title")[:7],
         "total_books_count": Book.objects.count(),
-        "available_books_count": Book.objects.exclude(id__in=currently_borrowed).count(),
+        "available_books_count": catalog.filter(is_on_loan=False).count(),
     }
     return render(request, "students/index.html", context=context)
 

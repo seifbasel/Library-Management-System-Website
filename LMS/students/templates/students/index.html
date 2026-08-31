@@ -1,125 +1,89 @@
 {% extends 'students/layouts/base.html' %}
 {% load static %}
-{% block title %}LMS Library{% endblock %}
+{% block title %}{{ LIBRARY_INFO.name }}{% endblock %}
+{% block page_width %}--home{% endblock %}
 
 {% block content %}
-<section class="hero" style="margin-bottom: var(--space-10)">
-  <div class="hero__bg" style="background-image: url('{{ MEDIA_URL }}8.jpg')"></div>
-  <div class="hero__scrim"></div>
-  <div class="hero__content">
-    <span class="hero__eyebrow">{{ LIBRARY_INFO.name }}</span>
-    <h1 style="font: var(--text-display); margin-bottom: var(--space-4)">Your library, organized.</h1>
-    <p style="font-size: 1.0625rem; color: rgba(255,255,255,0.85); max-width: 480px; margin: 0 auto var(--space-8)">
-      Browse the full catalog, borrow what you need, and keep track of due dates — all in one place.
-    </p>
-    <div style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap">
-      <a href="{% url 'books:index' %}" class="btn btn-primary">Browse the catalog</a>
-      {% if not user.is_authenticated %}
-      <a href="{% url 'students:signup' %}" class="btn btn-secondary" style="background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); color: #fff">Create an account</a>
-      {% endif %}
+<div class="home-page">
+  <section class="home-hero" aria-labelledby="home-title">
+    <div class="home-hero__copy">
+      <span class="home-kicker">Your library</span>
+      <h1 id="home-title"><span>Your library,</span><em>organized.</em></h1>
+      <p>Browse the full catalog, borrow what you need, and keep track of due dates &mdash; all in one place.</p>
+      <a href="{% url 'books:index' %}" class="home-button">Browse the catalog <span aria-hidden="true">&rarr;</span></a>
     </div>
-
-    <div class="hero__stats">
+    <div class="home-hero__visual" aria-hidden="true">
+      <img src="{{ MEDIA_URL }}8.jpg" alt="" />
+    </div>
+    <dl class="home-hero__metrics" aria-label="Library at a glance">
       <div>
-        <p class="stat-value" style="font-size: 2rem">{{ total_books_count }}</p>
-        <p class="stat-label mt-0">Books in the catalog</p>
+        <span class="home-metric__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span>
+        <dt><strong>{{ total_books_count }}</strong><span>Books in<br />your catalog</span></dt>
       </div>
       <div>
-        <p class="stat-value" style="font-size: 2rem">{{ available_books_count }}</p>
-        <p class="stat-label mt-0">Available right now</p>
+        <span class="home-metric__icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg></span>
+        <dt><strong>{{ available_books_count }}</strong><span>Available<br />right now</span></dt>
       </div>
-    </div>
-  </div>
-</section>
+    </dl>
+  </section>
 
-{% if most_borrowed %}
-<section style="margin-bottom: var(--space-10)">
-  <div class="flex-between" style="margin-bottom: var(--space-5)">
-    <h2 style="margin: 0">Best Sellers</h2>
-    <span class="text-small">Most borrowed by our members</span>
-  </div>
-  <div class="marquee">
-    <div class="marquee__track">
+  {% if most_borrowed %}
+  <section class="home-section" aria-labelledby="featured-title">
+    <div class="home-section__header">
+      <div class="home-section__title">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 2.3 6.7H21l-5.4 4 2 6.8-5.6-4-5.6 4 2-6.8-5.4-4h6.7L12 2Z"/></svg>
+        <h2 id="featured-title">Featured Books</h2>
+      </div>
+      <a href="{% url 'books:index' %}" class="home-link-button">View all <span aria-hidden="true">&rsaquo;</span></a>
+    </div>
+    <div class="home-book-grid home-book-grid--featured">
       {% for book in most_borrowed %}
-      <a href="{{ book.get_show_url }}" class="marquee-card">
-        <img src="{{ book.get_image_url }}" alt="{{ book.title }}" />
-        <span class="badge badge-info">{{ book.loan_count }}× borrowed</span>
-        <strong class="text-small" style="color: var(--color-text-primary)">{{ book.title }}</strong>
-      </a>
-      {% endfor %}
-      <!-- Duplicated so the marquee loops seamlessly at -50% translateX -->
-      {% for book in most_borrowed %}
-      <a href="{{ book.get_show_url }}" class="marquee-card" aria-hidden="true" tabindex="-1">
-        <img src="{{ book.get_image_url }}" alt="" />
-        <span class="badge badge-info">{{ book.loan_count }}× borrowed</span>
-        <strong class="text-small" style="color: var(--color-text-primary)">{{ book.title }}</strong>
-      </a>
+      {% include "includes/_home_book_card.html" with book=book %}
       {% endfor %}
     </div>
-  </div>
-</section>
-{% endif %}
+  </section>
+  {% endif %}
 
-{% if new_releases %}
-<section style="margin-bottom: var(--space-10)">
-  <div class="flex-between" style="margin-bottom: var(--space-5)">
-    <h2 style="margin: 0">New Releases</h2>
-    <a href="{% url 'books:index' %}" class="text-small">View full catalog</a>
-  </div>
-  <div class="kpi-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))">
-    {% for book in new_releases %}
-    <a href="{{ book.get_show_url }}" class="card card-interactive" style="display: block; color: inherit">
-      <img
-        src="{{ book.get_image_url }}"
-        alt="{{ book.title }}"
-        style="width: 100%; height: 220px; object-fit: cover; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background-color: var(--color-border-subtle)"
-      />
-      <div class="card-body" style="padding: var(--space-4)">
-        <h3 class="text-small" style="margin-bottom: 2px; font-weight: 600; color: var(--color-text-primary)">{{ book.title }}</h3>
-        <p class="text-small mt-0">{{ book.author }}</p>
+  {% if new_releases %}
+  <section class="home-section" aria-labelledby="arrivals-title">
+    <div class="home-section__header">
+      <div class="home-section__title">
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2M3 12h3"/></svg>
+        <h2 id="arrivals-title">New Arrivals</h2>
       </div>
-    </a>
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
-
-<section class="info-section" style="margin-bottom: var(--space-6)">
-  <div class="card">
-    <div class="card-body">
-      <span class="stat-icon" aria-hidden="true" style="margin-bottom: var(--space-3)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      </span>
-      <h2>Visit the library</h2>
-      <p class="stack" style="gap: var(--space-2)">
-        <span>{{ LIBRARY_INFO.address }}</span>
-        <span>{{ LIBRARY_INFO.hours }}</span>
-        <span><a href="tel:{{ LIBRARY_INFO.phone }}">{{ LIBRARY_INFO.phone }}</a> · <a href="mailto:{{ LIBRARY_INFO.email }}">{{ LIBRARY_INFO.email }}</a></span>
-      </p>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <span class="stat-icon" aria-hidden="true" style="margin-bottom: var(--space-3)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 3 4zM6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12 5a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
-      </span>
-      <h2>Follow us</h2>
-      <p style="margin-bottom: var(--space-4)">Stay up to date with new arrivals and library events.</p>
-      <div class="social-links">
-        {% for link in SOCIAL_LINKS %}
-        <a href="{{ link.url }}" aria-label="{{ link.label }}" target="_blank" rel="noopener noreferrer">
-          {% if link.icon == "instagram" %}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          {% elif link.icon == "twitter" %}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg>
-          {% else %}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          {% endif %}
-        </a>
+    <div class="home-arrivals">
+      <div class="home-book-grid home-book-grid--arrivals">
+        {% for book in new_releases %}
+        {% include "includes/_home_book_card.html" with book=book %}
         {% endfor %}
       </div>
+      <aside class="home-explore-card">
+        <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H11V3H6.5A2.5 2.5 0 0 0 4 5.5v14Z"/><path d="M20 19.5a2.5 2.5 0 0 0-2.5-2.5H13V3h4.5A2.5 2.5 0 0 1 20 5.5v14Z"/></svg>
+        <h2>Explore. Borrow. Enjoy.</h2>
+        <p>Find your next great read and manage every loan in one simple place.</p>
+        <a href="{% url 'books:index' %}" class="home-button">Explore Books <span aria-hidden="true">&rarr;</span></a>
+      </aside>
     </div>
-  </div>
-</section>
+  </section>
+  {% endif %}
+
+  <section class="home-utility-grid" aria-label="Library information">
+    <div class="home-utility-card">
+      <span class="home-utility-card__icon" aria-hidden="true"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+      <div><h3>Visit the library</h3><p>{% if LIBRARY_INFO.address %}{{ LIBRARY_INFO.address }}{% else %}Contact library staff for directions.{% endif %}</p></div>
+      <span class="home-utility-card__arrow" aria-hidden="true">&rsaquo;</span>
+    </div>
+    <div class="home-utility-card">
+      <span class="home-utility-card__icon" aria-hidden="true"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+      <div><h3>Library hours</h3><p>{% if LIBRARY_INFO.hours %}{{ LIBRARY_INFO.hours }}{% else %}Ask staff for today&rsquo;s opening hours.{% endif %}</p></div>
+      <span class="home-utility-card__arrow" aria-hidden="true">&rsaquo;</span>
+    </div>
+    <div class="home-utility-card">
+      <span class="home-utility-card__icon" aria-hidden="true"><svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></span>
+      <div><h3>Stay in the loop</h3><p>{% if LIBRARY_INFO.email %}Updates and help at {{ LIBRARY_INFO.email }}{% else %}Browse the catalog for the latest arrivals.{% endif %}</p></div>
+      <span class="home-utility-card__arrow" aria-hidden="true">&rsaquo;</span>
+    </div>
+  </section>
+</div>
 {% endblock %}

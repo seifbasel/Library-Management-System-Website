@@ -1,0 +1,15 @@
+<a class="home-book-card" href="{{ book.get_show_url }}">
+  <span class="home-book-card__cover">
+    <img src="{{ book.get_image_url }}" alt="Cover of {{ book.title }}" loading="lazy" width="320" height="390" />
+  </span>
+  <span class="home-book-card__body">
+    <strong>{{ book.title }}</strong>
+    <span class="home-book-card__author">{{ book.author }}</span>
+    <span class="home-book-card__meta">
+      <span>{{ book.genre|default:"General" }}</span>
+      <span class="home-book-card__status{% if book.is_on_loan %} is-borrowed{% endif %}" title="{% if book.is_on_loan %}Currently on loan{% else %}Available{% endif %}" aria-label="{% if book.is_on_loan %}Currently on loan{% else %}Available{% endif %}">
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg>
+      </span>
+    </span>
+  </span>
+</a>

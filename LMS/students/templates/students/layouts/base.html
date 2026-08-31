@@ -4,10 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}LMS Library{% endblock %}</title>
-
-    <!-- Applied before any CSS loads or paint happens, so the correct
-         theme is active immediately - no flash of the wrong theme. -->
+    <title>{% block title %}{{ LIBRARY_INFO.name }}{% endblock %}</title>
     <script>
       (function () {
         try {
@@ -15,53 +12,53 @@
           if (stored === "light" || stored === "dark") {
             document.documentElement.setAttribute("data-theme", stored);
           }
-        } catch (e) {}
+        } catch (error) {}
       })();
     </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'students/bootstrap/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'students/css/tokens.css' %}" />
     <link rel="stylesheet" href="{% static 'students/css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'students/css/layout.css' %}" />
     <link rel="stylesheet" href="{% static 'students/css/components.css' %}" />
+    <link rel="stylesheet" href="{% static 'students/css/library-reference.css' %}" />
+    {% if LIBRARY_INFO.favicon_url %}<link rel="icon" href="{{ LIBRARY_INFO.favicon_url }}" />{% endif %}
     {% block extra_head %}{% endblock %}
   </head>
   <body>
-    {% include "includes/_navbar.html" %}
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="site-shell">
+      {% include "includes/_navbar.html" %}
 
-    <main>
-      <div class="app-page{% block page_width %}{% endblock %}">
-        {% include "includes/_messages.html" %}
-        {% block content %}{% endblock %}
-      </div>
-    </main>
+      <main id="main-content" tabindex="-1">
+        <div class="app-page{% block page_width %}{% endblock %}">
+          {% include "includes/_messages.html" %}
+          {% block content %}{% endblock %}
+        </div>
+      </main>
 
-    <footer class="app-footer">
-      <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-3)">
+      <footer class="app-footer">
         <small>&copy; {% now "Y" %} {{ LIBRARY_INFO.name }}</small>
         {% if SOCIAL_LINKS %}
-        <div class="social-links">
+        <div class="app-footer__social" aria-label="Library social links">
           {% for link in SOCIAL_LINKS %}
-          <a href="{{ link.url }}" aria-label="{{ link.label }}" target="_blank" rel="noopener noreferrer" style="width: 32px; height: 32px">
+          <a href="{{ link.url }}" aria-label="{{ link.label }}" target="_blank" rel="noopener noreferrer">
             {% if link.icon == "instagram" %}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
             {% elif link.icon == "twitter" %}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84 0 0 0 .497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4.01c-1 .49-1.98.69-3 .99-1.12-1.26-2.78-1.34-4.38-.74S11.98 6.32 12 8v1c-3.25.08-6.14-1.4-8-4 0 0-4.18 7.43 4 11-1.87 1.25-3.74 2.09-6 2 3.31 1.8 6.91 2.42 10.03 1.52 3.58-1.04 6.52-3.72 7.65-7.74.32-1.2.49-2.47.5-3.75C20.18 7.77 21.69 5.25 22 4.01Z"/></svg>
             {% else %}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/></svg>
             {% endif %}
           </a>
           {% endfor %}
         </div>
         {% endif %}
-      </div>
-    </footer>
+      </footer>
+    </div>
 
-    <!-- Shared confirmation modal - any <form data-confirm="..."> triggers it (see main.js) -->
     <div class="modal-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
       <div class="modal">
         <h2 id="confirm-modal-title" data-confirm-title>Are you sure?</h2>

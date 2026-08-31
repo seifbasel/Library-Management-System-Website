@@ -7,9 +7,24 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     setupMobileNav();
+    setupHeaderSearchShortcut();
     setupConfirmModal();
     setupSubmitLoadingState();
   });
+
+  function setupHeaderSearchShortcut() {
+    var searchInput = document.getElementById("header-search-input");
+    if (!searchInput) return;
+
+    document.addEventListener("keydown", function (event) {
+      var target = event.target;
+      var isTyping = target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName);
+      if (event.key === "/" && !isTyping && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault();
+        searchInput.focus();
+      }
+    });
+  }
 
   /*
    * Shows a spinner on a form's submit button while a normal (full page
